@@ -26,7 +26,7 @@ const roles = [
       "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries, technical accounting policy design, and finance transformation initiatives including S/4HANA and Tagetik.",
   },
   {
-    title: "Assistant Manager, External Audit",
+    title: "Manager → Assistant Manager, External Audit",
     company: "KPMG AG",
     location: "Zurich, Switzerland",
     period: "Feb 2018 – May 2020",
