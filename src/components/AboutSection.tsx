@@ -32,7 +32,7 @@ const AboutSection = () => {
             <a href="https://maxbuckley.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Max
             </a>
-            , my biggest supporter and favourite person to brainstorm with. He's an AI researcher here in Zurich, so our dinner conversations tend to bounce between language models and what to cook next. We share a love for building things, exploring ideas, and making each other laugh — and I honestly can't imagine doing any of this without him.
+            , my biggest supporter and favourite person to brainstorm with. He's an AI researcher here in Zurich — we actually met at an AI meetup, and since then we've been travelling all over the world together to the best ML conferences, from NeurIPS to OXML to AMLD and beyond. We share a love for building things and exploring ideas, and I honestly can't imagine doing any of this without him.
           </p>
           <p>
             I'm passionate about civic engagement — I co-organize{" "}
