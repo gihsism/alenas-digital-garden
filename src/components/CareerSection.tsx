@@ -2,12 +2,12 @@ import { Briefcase } from "lucide-react";
 
 const roles = [
   {
-    title: "Senior Manager, Technical Accounting Advisory & AI Product Lead",
+    title: "Senior Manager, Accounting Advisory Services",
     company: "KPMG AG",
     location: "Zurich, Switzerland",
     period: "Apr 2025 – Present",
     description:
-      "Leading technical accounting advisory across IFRS and US GAAP for complex transactions. Initiated and manage an AI-powered Accounting Knowledge Platform leveraging RAG architecture — defining product vision, roadmap, and firmwide adoption strategy.",
+      "Leading client engagements across GAAP conversions, IPO readiness, and M&A accounting. Driving strategic financial advisory with CFO-level scope — from regulatory compliance to business transformation.",
   },
   {
     title: "Founder & CEO",
