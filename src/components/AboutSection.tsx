@@ -41,7 +41,7 @@ const AboutSection = () => {
           </p>
           <p>
             I'm passionate about civic engagement — I co-organize{" "}
-            <span className="text-foreground italic">Russia of the Future</span>, a Swiss association amplifying anti-war voices from the Russian diaspora. I'm always interested in conversations about how technology can drive meaningful change.
+            <a href="https://www.futurerussia.ch/en" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 italic">Russia of the Future</a>, a Swiss association amplifying anti-war voices from the Russian diaspora. I'm always interested in conversations about how technology can drive meaningful change.
           </p>
         </div>
       </div>
