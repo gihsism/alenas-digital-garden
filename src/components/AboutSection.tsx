@@ -1,0 +1,44 @@
+import { User } from "lucide-react";
+
+const AboutSection = () => {
+  return (
+    <section id="about" className="px-6 py-24">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center gap-3 mb-12">
+          <User className="w-5 h-5 text-accent" />
+          <h2 className="font-display text-3xl md:text-4xl text-foreground">About Me</h2>
+        </div>
+        <div className="space-y-6 font-body text-muted-foreground leading-relaxed">
+          <p>
+            I'm Alena Buckley — a finance executive, AI product leader, and founder based in Zurich, Switzerland. My career has taken me across three countries and some of the most complex challenges in global accounting, and along the way I discovered a deep passion for building things that sit at the intersection of finance, technology, and impact.
+          </p>
+          <p>
+            Currently, I'm a Senior Manager at{" "}
+            <span className="text-foreground font-medium">KPMG</span>, leading advisory engagements across GAAP conversions, IPO readiness, and M&A accounting. Before that, I spent five years at{" "}
+            <span className="text-foreground font-medium">Hitachi Energy</span>, where I led a global US GAAP-to-IFRS conversion across 120+ entities and pioneered the development of an internal AI accounting chatbot — a project that sparked my shift into product thinking and AI.
+          </p>
+          <p>
+            That spark became{" "}
+            <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
+              Womanie
+            </a>
+            , the company I founded to build an AI-powered women's health platform. It's where I pour my energy outside of work — designing products that help women navigate their health with better tools, better data, and better care.
+          </p>
+          <p>
+            I grew up in Russia, trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold degrees from the Higher School of Economics in Moscow and IÉSEG School of Management in Paris.
+          </p>
+          <p>
+            Outside of work, I'm engaged to{" "}
+            <a href="https://maxbuckley.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
+              Max
+            </a>
+            , who works in AI research here in Zurich. I'm passionate about civic engagement — I co-organize{" "}
+            <span className="text-foreground italic">Russia of the Future</span>, a Swiss association amplifying anti-war voices from the Russian diaspora. I also speak publicly on AI applications in finance, and I'm always interested in conversations about how technology can drive meaningful change.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default AboutSection;
