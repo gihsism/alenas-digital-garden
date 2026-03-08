@@ -20,11 +20,11 @@ const AboutSection = () => {
             <a href="https://www.hitachienergy.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">Hitachi Energy</a>, where I led a global US GAAP-to-IFRS conversion across 120+ entities. Driven by my passion for product thinking and AI, I also pioneered the development of an internal AI accounting chatbot there.
           </p>
           <p>
-            That passion grew into{" "}
+            After going through my own fertility challenges, I saw first-hand how broken the women's health experience can be — and decided to do something about it. That's how{" "}
             <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Womanie
             </a>
-            , the company I founded to build an AI-powered women's health platform. It's where I pour my energy outside of work — designing products that help women navigate their health with better tools, better data, and better care.
+            {" "}was born — an AI-powered women's health platform I founded to give women better tools, better data, and better care at every stage of their journey.
           </p>
           <p>
             I grew up in Russia, trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. More recently, I completed a CAS in Artificial Intelligence and Software Development at ETH Zurich, and I'm currently pursuing an MAS in Management, Technology & Economics (MTEC) there — expected to finish in 2027.
