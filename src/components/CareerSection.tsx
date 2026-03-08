@@ -31,7 +31,7 @@ const roles = [
     location: "Russia · UK · Switzerland",
     period: "Sep 2012 – May 2020",
     description:
-      "Eight years across three KPMG offices and countries, progressing from auditor to manager. Delivered 100+ external audits across US GAAP, IFRS, and SOX for clients in energy, natural resources, pharma, technology, and industrial sectors. Designed SOX compliance audit program for ABB, coordinated 80+ component audit teams, and managed up to 9 concurrent engagements. Completed ACCA qualification.",
+      "Eight years across three KPMG offices and countries, progressing from auditor to manager. Delivered 100+ external audits across US GAAP, IFRS, and SOX for clients in energy, natural resources, pharma, technology, and industrial sectors. Designed SOX compliance audit program for ABB, coordinated 80+ component audit teams, and managed up to 9 concurrent engagements. Completed ACCA and Swiss Audit License qualifications.",
   },
 ];
 
