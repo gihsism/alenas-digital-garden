@@ -14,7 +14,9 @@ const AboutSection = () => {
           </p>
           <p>
             Currently, I'm a Senior Manager at{" "}
-            <span className="text-foreground font-medium">KPMG</span>, leading advisory engagements across GAAP conversions, IPO readiness, and M&A accounting. Before that, I spent five years at{" "}
+            <a href="https://kpmg.com/ch/en.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">KPMG Switzerland</a>, working in{" "}
+            <a href="https://kpmg.com/ch/en/services/audit/accounting-advisory-corporates.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">Accounting Advisory Services</a>{" "}
+            and leading engagements across GAAP conversions, IPO readiness, and M&A accounting. Before that, I spent five years at{" "}
             <span className="text-foreground font-medium">Hitachi Energy</span>, where I led a global US GAAP-to-IFRS conversion across 120+ entities and pioneered the development of an internal AI accounting chatbot — a project that sparked my shift into product thinking and AI.
           </p>
           <p>
