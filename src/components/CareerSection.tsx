@@ -34,7 +34,7 @@ const roles = [
       "Managed 100+ external audits across US GAAP, IFRS, and SOX. Designed and implemented SOX compliance audit program for ABB as a first-year engagement, coordinating 80+ component audit teams across multiple countries.",
   },
   {
-    title: "Assistant Manager, External Audit",
+    title: "Senior Auditor → (Assistant) Manager, External Audit",
     company: "KPMG LLP",
     location: "Bristol, United Kingdom",
     period: "Aug 2016 – Feb 2018",
