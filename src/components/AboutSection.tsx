@@ -37,7 +37,7 @@ const AboutSection = () => {
           <p>
             On a personal note — I'm happily married to{" "}
             <a href="https://maxbuckley.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
-              Max
+              Max Buckley
             </a>
             , my biggest supporter and favourite person to brainstorm with. He's an AI researcher here in Zurich — we actually met at an AI meetup, and since then we've been travelling all over the world together to the best ML conferences, from{" "}
             <a href="https://neurips.cc/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">NeurIPS</a> to{" "}
