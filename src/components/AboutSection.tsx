@@ -31,7 +31,7 @@ const AboutSection = () => {
           </p>
           <p>
             I grew up in Russia during the turbulent 1990s and early 2000s — a period of deep economic instability and uncertainty that shaped my resilience and drive from an early age. I trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. In 2024, I completed a{" "}
-            <a href="https://inf.ethz.ch/continuing-education/certificate-program-in-ai.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">CAS in Artificial Intelligence and Software Development</a> at ETH Zurich, and I'm currently pursuing an{" "}
+            <a href="https://inf.ethz.ch/continuing-education/CAS-AIS.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">CAS in Artificial Intelligence and Software Development</a> at ETH Zurich, and I'm currently pursuing an{" "}
             <a href="https://mas-mtec.ethz.ch/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">MAS in Management, Technology & Economics (MTEC)</a> there — expected to finish in 2027.
           </p>
           <p>
