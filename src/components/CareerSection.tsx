@@ -26,7 +26,7 @@ const roles = [
       "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries. Pioneered the development of an internal AI accounting chatbot as Lead SME and functional owner. Drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers globally.",
   },
   {
-    title: "Auditor → Senior Auditor → (Assistant) Manager, External Audit",
+    title: "Auditor → Senior Auditor → Junior Manager, External Audit",
     company: "KPMG (Moscow → Bristol → Zurich)",
     location: "Russia · UK · Switzerland",
     period: "Sep 2012 – May 2020",
