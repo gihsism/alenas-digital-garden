@@ -7,7 +7,15 @@ const roles = [
     location: "Zurich",
     period: "Present",
     description:
-      "Supporting clients with accounting and financial reporting advice across audit and non-audit engagements. Specialising in GAAP conversions, IPO readiness, and M&A accounting implications within a dynamic regulatory environment.",
+      "Leading client engagements across GAAP conversions, IPO readiness, and M&A accounting. Driving strategic financial advisory with CFO-level scope — from regulatory compliance to business transformation.",
+  },
+  {
+    title: "Founder & Product Manager",
+    company: "Womanie — Women's Health Platform",
+    location: "Zurich",
+    period: "Present",
+    description:
+      "Building an AI-powered women's health companion — from cycle tracking and telehealth to personalised insights. Leading product strategy, design, and go-to-market as a solo founder.",
   },
   {
     title: "Reporting & Consolidation Manager",

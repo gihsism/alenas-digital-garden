@@ -17,6 +17,7 @@ const HeroSection = () => {
         </p>
         <nav className="mt-12 flex flex-wrap justify-center gap-8 font-body text-sm tracking-wider uppercase animate-fade-up" style={{ animationDelay: '0.5s' }}>
           <a href="#career" className="text-muted-foreground hover:text-accent transition-colors duration-300">Career</a>
+          <a href="#ventures" className="text-muted-foreground hover:text-accent transition-colors duration-300">Ventures</a>
           <a href="#education" className="text-muted-foreground hover:text-accent transition-colors duration-300">Education</a>
           <a href="#advocacy" className="text-muted-foreground hover:text-accent transition-colors duration-300">Advocacy</a>
           <a href="#contact" className="text-muted-foreground hover:text-accent transition-colors duration-300">Contact</a>
