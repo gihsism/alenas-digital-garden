@@ -16,7 +16,7 @@ const AboutSection = () => {
             Currently, I'm a Senior Manager at{" "}
             <a href="https://kpmg.com/ch/en.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">KPMG Switzerland</a>, working in{" "}
             <a href="https://kpmg.com/ch/en/services/audit/accounting-advisory-corporates.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">Accounting Advisory Services</a>
-            . I advise corporates — often at CFO and board level — on complex financial reporting challenges: IFRS, US GAAP, and Swiss GAAP FER conversions, IPO readiness assessments, M&A accounting (including valuations, pro forma financials, and carve-out statements), and the implementation of new standards like IFRS 18. Whether it's guiding a client through a transaction, designing accounting policies, or standing up a finance function from scratch — my work covers the full spectrum of what it takes to lead finance at a strategic level.
+            . I advise corporates at CFO and board level on their most complex financial reporting challenges — GAAP conversions, IPO readiness, M&A accounting, and new standards like IFRS 18. From designing accounting policies to standing up entire finance functions, my work covers the full scope of strategic finance leadership.
           </p>
           <p>
             Before KPMG, I spent five years at{" "}
