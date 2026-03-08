@@ -26,28 +26,12 @@ const roles = [
       "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries. Pioneered the development of an internal AI accounting chatbot as Lead SME and functional owner. Drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers globally.",
   },
   {
-    title: "Manager, External Audit",
-    company: "KPMG AG",
-    location: "Zurich, Switzerland",
-    period: "Feb 2018 – May 2020",
+    title: "Auditor → Senior Auditor → (Assistant) Manager → Manager, External Audit",
+    company: "KPMG (Moscow → Bristol → Zurich)",
+    location: "Russia · UK · Switzerland",
+    period: "Sep 2012 – May 2020",
     description:
-      "Managed 100+ external audits across US GAAP, IFRS, and SOX. Designed and implemented SOX compliance audit program for ABB as a first-year engagement, coordinating 80+ component audit teams across multiple countries.",
-  },
-  {
-    title: "Senior Auditor → (Assistant) Manager, External Audit",
-    company: "KPMG LLP",
-    location: "Bristol, United Kingdom",
-    period: "Aug 2016 – Feb 2018",
-    description:
-      "Managed 9 concurrent audit engagements as overall in-charge, improving audit quality and documentation standards while adapting to UK regulatory requirements.",
-  },
-  {
-    title: "Auditor → Senior Auditor, External Audit",
-    company: "KPMG CJSC",
-    location: "Moscow, Russia",
-    period: "Sep 2012 – Aug 2016",
-    description:
-      "Delivered statutory and IFRS group audits across energy, natural resources, mining, pharma, and industrial sectors. Completed ACCA professional qualification.",
+      "Eight years across three KPMG offices and countries, progressing from auditor to manager. Delivered 100+ external audits across US GAAP, IFRS, and SOX for clients in energy, natural resources, pharma, technology, and industrial sectors. Designed SOX compliance audit program for ABB, coordinated 80+ component audit teams, and managed up to 9 concurrent engagements. Completed ACCA qualification.",
   },
 ];
 
