@@ -10,7 +10,7 @@ const AboutSection = () => {
         </div>
         <div className="space-y-6 font-body text-muted-foreground leading-relaxed">
           <p>
-            I'm Alena Nikolskaia — finance executive, AI product director, CEO, and founder based in Zurich. I've built my career across three countries and some of the hardest problems in global finance, driven by a passion for what happens when finance, technology, and social change collide.
+            I'm Alena Nikolskaia — a finance executive, AI product leader, and founder based in Zurich, Switzerland. My career has taken me across three countries and some of the most complex challenges in global accounting, and along the way I discovered a deep passion for building things that sit at the intersection of finance, technology, and social change.
           </p>
           <p>
             Currently, I'm a Senior Manager at{" "}
@@ -27,7 +27,7 @@ const AboutSection = () => {
             <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Womanie
             </a>
-            {" "}was born. As founder and product manager, I lead the vision, strategy, and development of an AI-powered women's health platform — from personalised cycle tracking and symptom logging to secure medical document management. It's where my finance discipline, AI knowledge, and personal experience all come together to build something that truly helps women navigate their health at every stage.
+            {" "}was born. As CEO and product director, I lead the vision, strategy, and development of an AI-powered women's health platform — from personalised cycle tracking and symptom logging to secure medical document management. It's where my finance discipline, AI knowledge, and personal experience come together to build something that truly helps women take control of their health.
           </p>
           <p>
             I grew up in Russia during the turbulent 1990s and early 2000s — a period of deep economic instability and uncertainty that shaped my resilience and drive from an early age. As times changed and economies shifted, I didn't just adapt — I chose to go deeper. From chemistry at high school (nine hours a week of it), to sociology and then finance at university, to working in PR and product management during my university years, to building a career in external financial audit across multiple countries, and most recently into machine learning and AI — I sought out each new field, dove in, and made it my own.
