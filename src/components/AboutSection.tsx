@@ -23,11 +23,11 @@ const AboutSection = () => {
             <a href="https://www.hitachienergy.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">Hitachi Energy</a>, where I led a global US GAAP-to-IFRS conversion across 120+ entities in 62 countries, drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers worldwide. Driven by my passion for product thinking and AI, I also pioneered the development of an internal AI accounting chatbot there.
           </p>
           <p>
-            After going through my own fertility challenges, I saw first-hand how broken the women's health experience can be — and decided to do something about it. That's how{" "}
+            After going through my own fertility challenges, I decided to do something about the broken women's health experience. That's how{" "}
             <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Womanie
             </a>
-            {" "}was born. As CEO and product director, I lead the vision, strategy, and development of an AI-powered women's health platform — from personalised cycle tracking and symptom logging to secure medical document management. It's where my finance discipline, AI knowledge, and personal experience come together to build something that truly helps women take control of their health.
+            {" "}was born. As CEO and product director, I lead the vision and strategy — and vibe-code much of the platform myself, from AI-powered cycle tracking to secure medical document management.
           </p>
           <p>
             I grew up in Russia during the turbulent 1990s and early 2000s — a period of deep economic instability and uncertainty that shaped my resilience and drive from an early age. As times changed and economies shifted, I didn't just adapt — I chose to go deeper. From chemistry at high school (nine hours a week of it), to sociology and then finance at university, to working in PR and product management during my university years, to building a career in external financial audit across multiple countries, and most recently into machine learning and AI — I sought out each new field, dove in, and made it my own.
