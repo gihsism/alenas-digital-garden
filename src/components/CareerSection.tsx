@@ -23,7 +23,7 @@ const roles = [
     location: "Zurich, Switzerland",
     period: "May 2020 – Mar 2025",
     description:
-      "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries. Pioneered the development of an internal AI accounting chatbot as Lead SME and functional owner. Drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers globally.",
+      "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries. Interpreted complex transactions, managed financial reporting and controlling. Pioneered the development of an internal AI accounting chatbot as Lead SME and functional owner. Drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers globally.",
   },
   {
     title: "Auditor → Senior Auditor → Junior Manager, External Audit",
