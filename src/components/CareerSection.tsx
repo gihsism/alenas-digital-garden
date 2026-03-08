@@ -2,12 +2,12 @@ import { Briefcase } from "lucide-react";
 
 const roles = [
   {
-    title: "Senior Manager, Technical Accounting Advisory",
+    title: "Senior Manager, Technical Accounting Advisory & AI Product Lead",
     company: "KPMG AG",
     location: "Zurich, Switzerland",
     period: "Apr 2025 – Present",
     description:
-      "Leading technical accounting advisory across IFRS and US GAAP for complex transactions, CFO-level decision support, and AI-driven accounting knowledge initiatives.",
+      "Leading technical accounting advisory across IFRS and US GAAP for complex transactions. Initiated and manage an AI-powered Accounting Knowledge Platform leveraging RAG architecture — defining product vision, roadmap, and firmwide adoption strategy.",
   },
   {
     title: "Founder & CEO",
@@ -15,15 +15,15 @@ const roles = [
     location: "Zurich, Switzerland",
     period: "Present",
     description:
-      "Building an AI-powered women’s health platform spanning product strategy, operations, and go-to-market across health, technology, and impact.",
+      "Building an AI-powered women's health platform spanning product strategy, operations, and go-to-market across health, technology, and impact.",
   },
   {
-    title: "Consolidation and Reporting Manager (Technical Accounting Expert)",
+    title: "Technical Accounting Manager & AI Product Owner",
     company: "Hitachi Energy",
     location: "Zurich, Switzerland",
     period: "May 2020 – Mar 2025",
     description:
-      "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries, technical accounting policy design, and finance transformation initiatives including S/4HANA and Tagetik.",
+      "Led global US GAAP-to-IFRS conversion across 120+ entities in 62 countries. Pioneered the development of an internal AI accounting chatbot as Lead SME and functional owner. Drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers globally.",
   },
   {
     title: "Manager, External Audit",
@@ -31,7 +31,7 @@ const roles = [
     location: "Zurich, Switzerland",
     period: "Feb 2018 – May 2020",
     description:
-      "Managed and delivered 100+ external audits for listed and non-listed clients across US GAAP, IFRS, and SOX environments, including large multinational group audits.",
+      "Managed 100+ external audits across US GAAP, IFRS, and SOX. Designed and implemented SOX compliance audit program for ABB as a first-year engagement, coordinating 80+ component audit teams across multiple countries.",
   },
   {
     title: "Assistant Manager, External Audit",
@@ -39,7 +39,7 @@ const roles = [
     location: "Bristol, United Kingdom",
     period: "Aug 2016 – Feb 2018",
     description:
-      "Led multiple engagements in parallel as overall in-charge, improving audit quality and strengthening project delivery in complex reporting contexts.",
+      "Managed 9 concurrent audit engagements as overall in-charge, improving audit quality and documentation standards while adapting to UK regulatory requirements.",
   },
   {
     title: "Auditor → Senior Auditor, External Audit",
@@ -47,7 +47,7 @@ const roles = [
     location: "Moscow, Russia",
     period: "Sep 2012 – Aug 2016",
     description:
-      "Delivered statutory and IFRS group audits across energy, natural resources, mining, pharma, and industrial sectors, building a strong foundation in technical reporting.",
+      "Delivered statutory and IFRS group audits across energy, natural resources, mining, pharma, and industrial sectors. Completed ACCA professional qualification.",
   },
 ];
 
