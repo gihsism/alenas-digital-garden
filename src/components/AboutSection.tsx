@@ -10,7 +10,7 @@ const AboutSection = () => {
         </div>
         <div className="space-y-6 font-body text-muted-foreground leading-relaxed">
           <p>
-            I'm Alena Nikolskaia — finance executive, AI product director, CEO, and founder based in Zurich. I've built my career across three countries and some of the hardest problems in global finance, driven by a passion for what happens when finance, technology, and social change collide.
+            I'm Alena Nikolskaia — a finance executive, AI product leader, and founder based in Zurich, Switzerland. My career has taken me across three countries and some of the most complex challenges in global accounting, and along the way I discovered a deep passion for building things that sit at the intersection of finance, technology, and social change.
           </p>
           <p>
             Currently, I'm a Senior Manager at{" "}
