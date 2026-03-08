@@ -15,9 +15,13 @@ const AboutSection = () => {
           <p>
             Currently, I'm a Senior Manager at{" "}
             <a href="https://kpmg.com/ch/en.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">KPMG Switzerland</a>, working in{" "}
-            <a href="https://kpmg.com/ch/en/services/audit/accounting-advisory-corporates.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">Accounting Advisory Services</a>{" "}
-            and leading engagements across GAAP conversions, IPO readiness, and M&A accounting. Before that, I spent five years at{" "}
-            <a href="https://www.hitachienergy.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">Hitachi Energy</a>, where I led a global US GAAP-to-IFRS conversion across 120+ entities. Driven by my passion for product thinking and AI, I also pioneered the development of an internal AI accounting chatbot there.
+            <a href="https://kpmg.com/ch/en/services/audit/accounting-advisory-corporates.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">Accounting Advisory Services</a>
+            , where I lead client engagements across GAAP conversions, IPO readiness, and M&A accounting. My work sits at CFO-level scope — from regulatory compliance and financial reporting to business transformation and strategic advisory.
+          </p>
+          <p>
+            Before KPMG, I spent five years at{" "}
+            <a href="https://www.hitachienergy.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">Hitachi Energy</a>, where I led a global US GAAP-to-IFRS conversion across 120+ entities in 62 countries, drove finance transformation initiatives including S/4HANA and Tagetik implementations, and delivered 40+ webinars training 300+ controllers worldwide. Driven by my passion for product thinking and AI, I also pioneered the development of an internal AI accounting chatbot there.
+          </p>
           </p>
           <p>
             After going through my own fertility challenges, I saw first-hand how broken the women's health experience can be — and decided to do something about it. That's how{" "}
