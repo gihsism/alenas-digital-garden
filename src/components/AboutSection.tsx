@@ -30,7 +30,7 @@ const AboutSection = () => {
             {" "}was born. As CEO and product director, I lead the vision and strategy — and vibe-code much of the platform myself, from AI-powered cycle tracking to secure medical document management.
           </p>
           <p>
-            I grew up in Russia during the turbulent 1990s and early 2000s — a period of deep economic instability and uncertainty that shaped my resilience and drive from an early age. As times changed and economies shifted, I didn't just adapt — I chose to go deeper. From chemistry at high school (nine hours a week of it), to sociology and then finance at university, to working in PR and product management during my university years, to building a career in external financial audit across multiple countries, and most recently into machine learning and AI — I sought out each new field, dove in, and made it my own.
+            I grew up in Russia during the turbulent 1990s and early 2000s — a time that shaped my resilience early on. As the world shifted, I didn't just adapt — I chose to go deeper. Chemistry at high school (nine hours a week), sociology and finance at university, PR and product management on the side, external financial audit across multiple countries, and now machine learning and AI — I sought out each field, dove in, and made it my own.
           </p>
           <p>
             I trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. In 2024, I completed a{" "}
