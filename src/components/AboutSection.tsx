@@ -25,7 +25,7 @@ const AboutSection = () => {
             , the company I founded to build an AI-powered women's health platform. It's where I pour my energy outside of work — designing products that help women navigate their health with better tools, better data, and better care.
           </p>
           <p>
-            I grew up in Russia, trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold degrees from the Higher School of Economics in Moscow and IÉSEG School of Management in Paris.
+            I grew up in Russia, trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. More recently, I completed a CAS in Artificial Intelligence and Software Development at ETH Zurich, and I'm currently pursuing an MAS in Management, Technology & Economics (MTEC) there — expected to finish in 2027.
           </p>
           <p>
             Outside of work, I'm engaged to{" "}
