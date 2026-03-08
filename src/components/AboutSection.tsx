@@ -32,7 +32,10 @@ const AboutSection = () => {
             <a href="https://maxbuckley.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Max
             </a>
-            , who works in AI research here in Zurich. I'm passionate about civic engagement — I co-organize{" "}
+            , who works in AI research here in Zurich.
+          </p>
+          <p>
+            I'm passionate about civic engagement — I co-organize{" "}
             <span className="text-foreground italic">Russia of the Future</span>, a Swiss association amplifying anti-war voices from the Russian diaspora. I'm always interested in conversations about how technology can drive meaningful change.
           </p>
         </div>
