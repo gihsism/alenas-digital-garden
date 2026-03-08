@@ -38,7 +38,7 @@ const AboutSection = () => {
             <a href="https://mas-mtec.ethz.ch/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">MAS in Management, Technology & Economics (MTEC)</a> there — expected to finish in 2027.
           </p>
           <p>
-            On a personal note — I'm happily married to{" "}
+            On a personal note — I'm happily engaged to{" "}
             <a href="https://maxbuckley.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Max Buckley
             </a>
