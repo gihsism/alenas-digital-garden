@@ -24,7 +24,7 @@ const AboutSection = () => {
             <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Womanie
             </a>
-            {" "}was born. As founder and product manager, I lead the vision, strategy, and development of an AI-powered women's health platform — from personalised cycle tracking and symptom logging to telehealth consultations and secure medical document management. It's where my finance discipline, AI knowledge, and personal experience all come together to build something that truly helps women navigate their health at every stage.
+            {" "}was born. As founder and product manager, I lead the vision, strategy, and development of an AI-powered women's health platform — from personalised cycle tracking and symptom logging to secure medical document management. It's where my finance discipline, AI knowledge, and personal experience all come together to build something that truly helps women navigate their health at every stage.
           </p>
           <p>
             I grew up in Russia, trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. More recently, I completed a CAS in Artificial Intelligence and Software Development at ETH Zurich, and I'm currently pursuing an MAS in Management, Technology & Economics (MTEC) there — expected to finish in 2027.
