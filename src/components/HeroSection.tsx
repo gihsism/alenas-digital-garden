@@ -8,9 +8,6 @@ const HeroSection = () => {
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium text-foreground leading-[1.1] mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
           Alena Nikolskaia
         </h1>
-        <p className="font-display text-xl md:text-2xl text-muted-foreground italic mb-4 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-          (Nikolskaia)
-        </p>
         <div className="w-16 h-px bg-accent mx-auto my-8 animate-fade-up" style={{ animationDelay: '0.3s' }} />
         <p className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.4s' }}>
           Finance executive, AI product leader, and founder — building at the intersection of finance, technology, health, and civic impact from Zurich.
