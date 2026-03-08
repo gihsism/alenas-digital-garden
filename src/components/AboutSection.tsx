@@ -28,11 +28,11 @@ const AboutSection = () => {
             I grew up in Russia, trained as an auditor at KPMG Moscow, then moved to Bristol and eventually Zurich — earning my ACCA qualification and Swiss Audit License along the way. I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. More recently, I completed a CAS in Artificial Intelligence and Software Development at ETH Zurich, and I'm currently pursuing an MAS in Management, Technology & Economics (MTEC) there — expected to finish in 2027.
           </p>
           <p>
-            On a personal note, I'm engaged to{" "}
+            On a personal note — I'm happily married to{" "}
             <a href="https://maxbuckley.ai" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Max
             </a>
-            , who works in AI research here in Zurich.
+            , my biggest supporter and favourite person to brainstorm with. He's an AI researcher here in Zurich, so our dinner conversations tend to bounce between language models and what to cook next. We share a love for building things, exploring ideas, and making each other laugh — and I honestly can't imagine doing any of this without him.
           </p>
           <p>
             I'm passionate about civic engagement — I co-organize{" "}
