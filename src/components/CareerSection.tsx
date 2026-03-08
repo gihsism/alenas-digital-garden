@@ -2,20 +2,20 @@ import { Briefcase } from "lucide-react";
 
 const roles = [
   {
-    title: "Senior Manager, Accounting Advisory Services",
-    company: "KPMG AG",
-    location: "Zurich, Switzerland",
-    period: "Apr 2025 – Present",
-    description:
-      "Leading client engagements across GAAP conversions, IPO readiness, and M&A accounting. Driving strategic financial advisory with CFO-level scope — from regulatory compliance to business transformation.",
-  },
-  {
     title: "Founder & CEO",
     company: "Womanie",
     location: "Zurich, Switzerland",
     period: "Present",
     description:
       "Building an AI-powered women's health platform spanning product strategy, operations, and go-to-market across health, technology, and impact.",
+  },
+  {
+    title: "Senior Manager, Accounting Advisory Services",
+    company: "KPMG AG",
+    location: "Zurich, Switzerland",
+    period: "Apr 2025 – Present",
+    description:
+      "Leading client engagements across GAAP conversions, IPO readiness, and M&A accounting. Driving strategic financial advisory with CFO-level scope — from regulatory compliance to business transformation.",
   },
   {
     title: "Technical Accounting Manager & AI Product Owner",
