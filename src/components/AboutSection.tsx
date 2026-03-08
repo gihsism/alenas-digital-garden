@@ -33,8 +33,6 @@ const AboutSection = () => {
             I grew up in Russia during the turbulent 1990s and early 2000s — a time that forged my resilience and ambition early on. Each step built on the last: chemistry at high school sharpened my analytical rigour, sociology at university taught me to see systems and patterns in human behaviour, finance gave me the technical foundation I needed, and PR and product management on the side fed my creative and entrepreneurial instincts. Then came years of external financial audit across three countries — with overtime and professional accounting exams in parallel — giving me a deep understanding of the finance function from every angle. Now, with machine learning and AI, I'm combining all of it into what I do next.
           </p>
           <p>
-            I trained as an auditor at KPMG Moscow, and after Russia's annexation of Crimea I moved abroad — working for KPMG in Bristol and then Zurich, earning my ACCA qualification and Swiss Audit License along the way.
-          </p>
           <p>
             I hold a BSc in Finance from the Higher School of Economics and an MSc in Sociology from Lomonosov Moscow State University. In 2024, I completed a{" "}
             <a href="https://inf.ethz.ch/continuing-education/CAS-AIS.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">CAS in Artificial Intelligence and Software Development</a> at ETH Zurich, and I'm currently pursuing an{" "}
