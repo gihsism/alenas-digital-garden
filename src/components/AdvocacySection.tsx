@@ -18,12 +18,6 @@ const AdvocacySection = () => {
               Key events include the May 2022 Zurich rally under the motto <span className="font-display italic text-foreground">"I am Russian and I am against the war"</span> and demonstrations in Bern calling for stronger international sanctions.
             </p>
           </div>
-          <div className="border-t border-border pt-8">
-            <h3 className="font-display text-xl text-foreground mb-4">Emerging Technologies & AI</h3>
-            <p className="font-body text-muted-foreground leading-relaxed">
-              Active speaker on the applications of artificial intelligence in finance, presenting on practical AI implementations for operational efficiency, automation, and strategic integration — tailored for Switzerland's corporate sector.
-            </p>
-          </div>
         </div>
       </div>
     </section>
