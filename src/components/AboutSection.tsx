@@ -40,7 +40,7 @@ const AboutSection = () => {
             <a href="https://2026.appliedmldays.org/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">AMLD</a> and beyond. We share a love for building things and exploring ideas, and I honestly can't imagine doing any of this without him.
           </p>
           <p>
-            I'm passionate about civic engagement — I co-organize{" "}
+            I'm passionate about civic engagement — I co-founded{" "}
             <a href="https://www.futurerussia.ch/en" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 italic">Future Russia CH</a>, a Swiss association amplifying anti-war voices from the Russian diaspora. I'm always interested in conversations about how technology can drive meaningful change.
           </p>
         </div>
