@@ -23,7 +23,7 @@ const AboutSection = () => {
             <a href="https://www.hitachienergy.com/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">Hitachi Energy</a>, where I led a global US GAAP-to-IFRS conversion across 120+ entities in 62 countries, interpreted complex transactions, managed financial reporting and controlling, drove finance transformation initiatives including S/4HANA and Tagetik implementations, and educated financial controllers worldwide on accounting updates and new standards. Driven by my passion for product thinking and AI, I also pioneered the development of an internal AI accounting chatbot there.
           </p>
           <p>
-            I started my career at KPMG Moscow and spent eight years growing from auditor to manager. After Russia's annexation of Crimea, I moved abroad — first to KPMG Bristol, then Zurich, earning my ACCA qualification and Swiss Audit License along the way.
+            I started my career at KPMG Moscow, and over eight years across three countries grew from auditor to manager. After Russia's annexation of Crimea, I moved abroad — first to KPMG Bristol, then Zurich, earning my ACCA qualification and Swiss Audit License along the way.
           </p>
           <p>
             After going through my own fertility challenges, I decided to do something about the broken women's health experience. That's how{" "}
