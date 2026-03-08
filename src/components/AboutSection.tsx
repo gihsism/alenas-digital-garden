@@ -27,7 +27,7 @@ const AboutSection = () => {
             <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Womanie
             </a>
-            {" "}was born. As CEO and product director, I lead the vision and strategy — and vibe-code much of the platform myself, from AI-powered cycle tracking to secure medical document management.
+            {" "}was born. As CEO and product director, I lead the vision and strategy — and stay deeply hands-on, building much of the platform myself, from AI-powered cycle tracking to secure medical document management.
           </p>
           <p>
             I grew up in Russia during the turbulent 1990s and early 2000s — a time that forged my resilience and ambition early on. Each step built on the last: science (chemistry) at high school for analytical rigour, sociology at Lomonosov Moscow State University, finance at the Higher School of Economics, PR and product management on the side, then years of external financial audit across three countries — with overtime and professional accounting exams in parallel — giving me a deep understanding of the finance function from every angle. Now, with machine learning and AI, I'm combining all of it into what I do next.
