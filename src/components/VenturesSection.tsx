@@ -24,7 +24,7 @@ const VenturesSection = () => {
             </a>
           </div>
           <p className="font-body text-muted-foreground leading-relaxed mb-4">
-            Your complete women's health companion — an AI-powered platform offering personalised cycle tracking, symptom logging, telehealth consultations, and secure medical document management. Designed to support every stage of the reproductive journey, from first period through menopause.
+            After going through my own fertility challenges, I decided to do something about the broken women's health experience. That's how Womanie was born. As CEO and product director, I lead the vision and strategy — and vibe-code much of the platform myself. Womanie is your complete women's health companion — an AI-powered platform offering personalised cycle tracking, symptom logging, telehealth consultations, and secure medical document management. Designed to support every stage of the reproductive journey, from first period through menopause.
           </p>
           <div className="flex flex-wrap gap-2 mt-4">
             {["AI Health Assistant", "Telehealth", "Cycle Tracking", "HIPAA Compliant", "Wearable Integration"].map((tag) => (
