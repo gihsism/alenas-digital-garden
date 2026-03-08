@@ -13,7 +13,7 @@ const HeroSection = () => {
         </p>
         <div className="w-16 h-px bg-accent mx-auto my-8 animate-fade-up" style={{ animationDelay: '0.3s' }} />
         <p className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.4s' }}>
-          Finance executive, AI product leader, and founder — building at the intersection of technology, health, and civic impact from Zurich.
+          Finance executive, AI product leader, and founder — building at the intersection of finance, technology, health, and civic impact from Zurich.
         </p>
         <nav className="mt-12 flex flex-wrap justify-center gap-8 font-body text-sm tracking-wider uppercase animate-fade-up" style={{ animationDelay: '0.5s' }}>
           <a href="#career" className="text-muted-foreground hover:text-accent transition-colors duration-300">Career</a>
