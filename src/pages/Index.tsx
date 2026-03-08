@@ -17,7 +17,7 @@ const Index = () => {
       <AdvocacySection />
       <ContactSection />
       <footer className="py-8 text-center font-body text-xs text-muted-foreground tracking-wider">
-        © {new Date().getFullYear()} Alena Buckley. All rights reserved.
+        © {new Date().getFullYear()} Alena Nikolskaia. All rights reserved.
       </footer>
     </main>
   );

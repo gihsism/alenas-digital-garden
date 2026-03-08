@@ -6,7 +6,7 @@ const HeroSection = () => {
           Finance · Product · AI · Advocacy
         </p>
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium text-foreground leading-[1.1] mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-          Alena Buckley
+          Alena Nikolskaia
         </h1>
         <p className="font-display text-xl md:text-2xl text-muted-foreground italic mb-4 animate-fade-up" style={{ animationDelay: '0.2s' }}>
           (Nikolskaia)
