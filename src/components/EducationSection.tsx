@@ -34,7 +34,7 @@ const degrees = [
 const qualifications = [
   "Member of ACCA (Association of Chartered Certified Accountants), 2016",
   "Swiss Audit License, 2020",
-  "Business Information Technology courses, ZHAW, 2022",
+  "CAS in Artificial Intelligence and Software Development, ETH Zurich, 2024",
 ];
 
 const EducationSection = () => {
