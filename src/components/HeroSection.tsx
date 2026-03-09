@@ -1,6 +1,6 @@
 const HeroSection = () => {
   return (
-    <section className="min-h-[85vh] flex items-center justify-center px-6 py-24">
+    <section className="min-h-[70vh] flex items-center justify-center px-6 pt-24 pb-12">
       <div className="max-w-4xl mx-auto text-center">
         <p className="font-body text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6 animate-fade-up">
           Finance · Product · AI · Advocacy
