@@ -37,7 +37,7 @@ const roles = [
 
 const CareerSection = () => {
   return (
-    <section id="career" className="px-6 py-24 bg-card">
+    <section id="career" className="px-6 pt-12 pb-24 bg-card">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-12">
           <Briefcase className="w-5 h-5 text-accent" />
