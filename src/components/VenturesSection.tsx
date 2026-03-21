@@ -9,7 +9,7 @@ const sideProjects = [
   {
     name: "Accounting for AI Software",
     url: "https://github.com/gihsism/accountingforaisoftwarev2",
-    description: "Exploring the accounting implications of AI-generated software and digital assets.",
+    description: "Started as a side project exploring the accounting implications of AI-generated software and digital assets — then implemented it at KPMG.",
   },
   {
     name: "Job Monitor Agent",
