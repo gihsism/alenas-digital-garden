@@ -56,7 +56,7 @@ const VenturesSection = () => {
         </div>
 
         {/* Side Projects */}
-        <div className="flex items-center gap-3 mb-8">
+        <div id="side-projects" className="flex items-center gap-3 mb-8 scroll-mt-24">
           <Code className="w-5 h-5 text-accent" />
           <h2 className="font-display text-3xl md:text-4xl text-foreground">Side Projects</h2>
         </div>
