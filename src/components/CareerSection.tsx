@@ -10,7 +10,7 @@ const roles = [
       "Building an AI-powered women's health platform spanning product strategy, operations, and go-to-market across health, technology, and impact.",
   },
   {
-    title: "Senior Manager, Accounting Advisory Services",
+    title: "Senior Manager, Technical Accounting Advisory Services",
     company: "KPMG AG",
     location: "Zurich, Switzerland",
     period: "Apr 2025 – Present",
