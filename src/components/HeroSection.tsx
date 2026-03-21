@@ -9,7 +9,7 @@ const HeroSection = () => {
           Alena Nikolskaia
         </h1>
         <div className="w-16 h-px bg-accent mx-auto my-8 animate-fade-up" style={{ animationDelay: '0.3s' }} />
-        <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
+        <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground max-w-2xl mx-auto animate-fade-up" style={{ animationDelay: '0.4s' }}>
           Finance & Accounting · AI Products · Founder
         </p>
         <nav className="mt-12 flex flex-wrap justify-center gap-8 font-body text-sm tracking-wider uppercase animate-fade-up" style={{ animationDelay: '0.5s' }}>
