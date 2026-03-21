@@ -3,14 +3,14 @@ const HeroSection = () => {
     <section className="min-h-[70vh] flex items-center justify-center px-6 pt-24 pb-12">
       <div className="max-w-4xl mx-auto text-center">
         <p className="font-body text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6 animate-fade-up">
-          Finance & Accounting · AI Products · Founder
+          Finance & Accounting · AI Products · Startups
         </p>
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium text-foreground leading-[1.1] mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
           Alena Nikolskaia
         </h1>
         <div className="w-16 h-px bg-accent mx-auto my-8 animate-fade-up" style={{ animationDelay: '0.3s' }} />
         <p className="font-body text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: '0.4s' }}>
-          Thirteen years across Big Four advisory, Fortune 500 finance, and AI product — now building what's next from Zurich.
+          Thirteen years across Big Four, Fortune 500, and accounting advisory — based in Zurich.
         </p>
         <nav className="mt-12 flex flex-wrap justify-center gap-8 font-body text-sm tracking-wider uppercase animate-fade-up" style={{ animationDelay: '0.5s' }}>
           <a href="#career" className="text-muted-foreground hover:text-accent transition-colors duration-300">Career</a>
