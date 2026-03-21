@@ -10,7 +10,7 @@ const AboutSection = () => {
         </div>
         <div className="space-y-6 font-body text-muted-foreground leading-relaxed">
           <p>
-            I'm Alena Nikolskaia, based in Zurich. Over 13 years across Big Four external financial audit and technical accounting advisory, Fortune 500 corporate finance — I've built deep expertise in finance and accounting. In parallel, I build AI products: some at the intersection of finance and AI, others in women's health and beyond.
+            I'm Alena Nikolskaia, based in Zurich. Over 13 years across Big Four external financial audit, Fortune 500 corporate finance, and technical accounting advisory — with deep expertise in finance and accounting. In parallel, I build AI products: some at the intersection of finance and AI, others in women's health and beyond.
           </p>
           <p>
             Currently, I'm a Senior Manager at{" "}
