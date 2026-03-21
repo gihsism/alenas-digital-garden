@@ -4,7 +4,7 @@ const sideProjects = [
   {
     name: "StudiesCheck",
     url: "https://studiescheck.com/",
-    description: "A degree planning and progress tracking tool for ETH Zurich students. Simplifies navigating complex degree requirements, tracking ECTS credits, and planning your academic path.",
+    description: "A degree planning and progress tracking tool for MAS MTEC students at ETH Zurich. Simplifies navigating complex degree requirements, tracking ECTS credits, and planning your academic path.",
   },
   {
     name: "Accounting for AI Software",
