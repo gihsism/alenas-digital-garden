@@ -26,6 +26,9 @@ const AboutSection = () => {
             I started my career at KPMG and over eight years grew from auditor to manager — beginning in Moscow, and after Russia's annexation of Crimea relocating to Bristol, then Zurich, earning my ACCA qualification and Swiss Audit License along the way.
           </p>
           <p>
+            When I see a problem, I build a solution — usually that same weekend. I vibe-code: I get an idea and just make it. At KPMG I built accounting tools to work through complex reporting questions I was facing with clients. I built a job monitor agent — not because I was looking, but to map what the AI product market actually looks like as I deliberately move in that direction. Then an ETH course planner for my own MAS MTEC degree — it recommends courses based on your background and career goals — which classmates picked up and now use too. And then Womanie, which grew from personal experience into a full AI-powered women's health platform.
+          </p>
+          <p>
             After going through my own fertility challenges, I decided to do something about the broken women's health experience. That's how{" "}
             <a href="https://womanie.info/" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">
               Womanie
