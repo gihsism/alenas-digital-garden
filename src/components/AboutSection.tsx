@@ -10,13 +10,13 @@ const AboutSection = () => {
         </div>
         <div className="space-y-6 font-body text-muted-foreground leading-relaxed">
           <p>
-            I'm Alena Nikolskaia — a finance advisor, AI product builder, and founder based in Zurich, Switzerland. Over 13 years, across three countries and three worlds — Big Four advisory, Fortune 500 corporate finance, and femtech founder — I've built a career at the intersection of finance, technology, and social impact.
+            I'm Alena Nikolskaia — a finance advisor, AI product builder, and founder based in Zurich, Switzerland. Over 13 years, across three countries and three worlds — Big Four advisory, Fortune 500 corporate finance, and femtech founder — I've built a career at the intersection of finance and technology.
           </p>
           <p>
             Currently, I'm a Senior Manager at{" "}
             <a href="https://kpmg.com/ch/en.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4 font-medium">KPMG Switzerland</a>, working in{" "}
             <a href="https://kpmg.com/ch/en/services/audit/accounting-advisory-corporates.html" target="_blank" rel="noopener noreferrer" className="text-accent hover:text-foreground transition-colors underline underline-offset-4">Accounting Advisory Services</a>
-            . I advise corporates at CFO and board level on their most complex financial reporting challenges — GAAP conversions, IPO readiness, M&A accounting, and the implementation of new accounting standards. From assessing complex transactions to standing up entire finance functions, my work covers the full scope of strategic finance leadership.
+            . I advise corporates at CFO and board level on their most complex financial reporting challenges — GAAP conversions, IPO readiness, M&A accounting, and the implementation of new accounting standards. My work covers the full scope of strategic finance — from complex transaction analysis to standing up entire finance functions.
           </p>
           <p>
             Before KPMG, I spent five years at{" "}

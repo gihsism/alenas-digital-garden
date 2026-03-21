@@ -2,7 +2,7 @@ import { Rocket, ExternalLink, GraduationCap, Code } from "lucide-react";
 
 const ventures = [
   {
-    role: "Founder · Product Manager",
+    role: "Founder · Product Owner",
     name: "Womanie",
     url: "https://womanie.info/",
     description:
