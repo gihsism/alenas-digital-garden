@@ -13,6 +13,7 @@ const HeroSection = () => {
           Finance & Accounting · AI Products · Founder
         </p>
         <nav className="mt-12 flex flex-wrap justify-center gap-8 font-body text-sm tracking-wider uppercase animate-fade-up" style={{ animationDelay: '0.5s' }}>
+          <a href="#about" className="text-muted-foreground hover:text-accent transition-colors duration-300">About</a>
           <a href="#career" className="text-muted-foreground hover:text-accent transition-colors duration-300">Career</a>
           <a href="#ventures" className="text-muted-foreground hover:text-accent transition-colors duration-300">Startup</a>
           <a href="#side-projects" className="text-muted-foreground hover:text-accent transition-colors duration-300">Side Projects</a>
