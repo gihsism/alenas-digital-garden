@@ -1,4 +1,4 @@
-import { Linkedin, MapPin } from "lucide-react";
+import { Linkedin, MapPin, Github } from "lucide-react";
 
 const ContactSection = () => {
   return (
@@ -9,15 +9,26 @@ const ContactSection = () => {
           <MapPin className="w-4 h-4 text-accent" />
           <span>Zurich, Switzerland</span>
         </div>
-        <a
-          href="https://www.linkedin.com/in/alena-n-80966153/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-foreground text-background font-body text-sm tracking-wider uppercase hover:opacity-90 transition-opacity"
-        >
-          <Linkedin className="w-4 h-4" />
-          Connect on LinkedIn
-        </a>
+        <div className="flex flex-wrap justify-center gap-4">
+          <a
+            href="https://www.linkedin.com/in/alena-n-80966153/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-foreground text-background font-body text-sm tracking-wider uppercase hover:opacity-90 transition-opacity"
+          >
+            <Linkedin className="w-4 h-4" />
+            LinkedIn
+          </a>
+          <a
+            href="https://github.com/gihsism"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-foreground font-body text-sm tracking-wider uppercase hover:bg-foreground hover:text-background transition-colors"
+          >
+            <Github className="w-4 h-4" />
+            GitHub
+          </a>
+        </div>
       </div>
     </section>
   );
