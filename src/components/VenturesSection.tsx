@@ -1,19 +1,20 @@
-import { Rocket, ExternalLink, Code } from "lucide-react";
+import { Rocket, ExternalLink, Code, Github } from "lucide-react";
 
 const sideProjects = [
   {
     name: "StudiesCheck",
     url: "https://studiescheck.com/",
+    github: "https://github.com/gihsism/mtec-tracker",
     description: "A degree planning and progress tracking tool for MAS MTEC students at ETH Zurich. Simplifies navigating complex degree requirements, tracking ECTS credits, and planning your academic path.",
   },
   {
     name: "Accounting for AI Software",
-    url: "https://github.com/gihsism/accountingforaisoftwarev2",
+    github: "https://github.com/gihsism/accountingforaisoftwarev2",
     description: "Started as a side project exploring the accounting implications of AI-generated software and digital assets — then implemented it at KPMG.",
   },
   {
     name: "Job Monitor Agent",
-    url: "https://github.com/gihsism/job-monitor-agent",
+    github: "https://github.com/gihsism/job-monitor-agent",
     description: "An AI-powered agent that monitors job listings and sends personalised alerts.",
   },
 ];
@@ -34,14 +35,24 @@ const VenturesSection = () => {
               <p className="font-body text-xs tracking-[0.2em] uppercase text-accent mb-2">Founder · Product Owner</p>
               <h3 className="font-display text-2xl md:text-3xl text-foreground">Womanie</h3>
             </div>
-            <a
-              href="https://womanie.info/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-accent hover:text-foreground transition-colors font-body text-sm mt-1"
-            >
-              Visit <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            <div className="flex items-center gap-3 mt-1">
+              <a
+                href="https://womanie.info/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-accent hover:text-foreground transition-colors font-body text-sm"
+              >
+                Visit <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="https://github.com/gihsism/womanie-bloom-care"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:text-foreground transition-colors"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+            </div>
           </div>
           <p className="font-body text-muted-foreground leading-relaxed mb-4">
             After going through my own fertility challenges, I decided to do something about the broken women's health experience. That's how Womanie was born. As CEO and product director, I lead the vision and strategy — and stay deeply hands-on, building much of the platform myself. Womanie is your complete women's health companion — an AI-powered platform offering personalised cycle tracking, symptom logging, telehealth consultations, and secure medical document management. Designed to support every stage of the reproductive journey, from first period through menopause.
@@ -66,16 +77,28 @@ const VenturesSection = () => {
             <div key={project.name} className="p-6 rounded-lg bg-card border border-border">
               <div className="flex items-start justify-between gap-3 mb-3">
                 <h4 className="font-display text-lg text-foreground">{project.name}</h4>
-                {project.url && (
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent hover:text-foreground transition-colors shrink-0"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
+                <div className="flex items-center gap-2 shrink-0">
+                  {project.url && (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:text-foreground transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:text-foreground transition-colors"
+                    >
+                      <Github className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
               </div>
               <p className="font-body text-sm text-muted-foreground leading-relaxed">
                 {project.description}
