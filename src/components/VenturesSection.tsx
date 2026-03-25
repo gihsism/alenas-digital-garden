@@ -17,6 +17,11 @@ const sideProjects = [
     github: "https://github.com/gihsism/job-monitor-agent",
     description: "An AI-powered agent that monitors job listings and sends personalised alerts.",
   },
+  {
+    name: "Disclosure Checklist",
+    github: "https://github.com/gihsism/disclosure-checklist",
+    description: "AI-powered IFRS & GAAP disclosure compliance analyzer for financial statements.",
+  },
 ];
 
 const VenturesSection = () => {
