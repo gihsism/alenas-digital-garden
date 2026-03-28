@@ -20,7 +20,7 @@ const sideProjects = [
   {
     name: "Disclosure Checklist",
     github: "https://github.com/gihsism/disclosure-checklist",
-    description: "AI-powered IFRS & GAAP disclosure compliance analyzer for financial statements.",
+    description: "AI-powered IFRS disclosure compliance analyzer for financial statements.",
   },
 ];
 
