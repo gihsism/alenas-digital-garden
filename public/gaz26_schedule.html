@@ -1044,8 +1044,15 @@ const SESSION_DESC = {
         const startM = timeMatch[2];
         const endH = timeMatch[3].padStart(2, '0');
         const endM = timeMatch[4];
-        const dtStart = date + 'T' + startH + startM + '00';
-        const dtEnd = date + 'T' + endH + endM + '00';
+        // Convert Zurich local time (CEST = UTC+2 in April) to UTC
+        const toUTC = (d, h, m) => {
+          let uh = parseInt(h) - 2;
+          let ud = d;
+          if (uh < 0) { uh += 24; /* roll back date would be needed but conference is daytime */ }
+          return ud + 'T' + String(uh).padStart(2,'0') + m + '00Z';
+        };
+        const dtStart = toUTC(date, startH, startM);
+        const dtEnd = toUTC(date, endH, endM);
 
         attending.forEach(cell => {
           const logCol = cellMap.get(cell);
@@ -1057,7 +1064,7 @@ const SESSION_DESC = {
           let evEnd = dtEnd;
           const cellTimeMatch = cell.textContent.match(/\((\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/);
           if (cellTimeMatch) {
-            evEnd = date + 'T' + cellTimeMatch[3].padStart(2, '0') + cellTimeMatch[4] + '00';
+            evEnd = toUTC(date, cellTimeMatch[3].padStart(2, '0'), cellTimeMatch[4]);
           }
 
           const desc = findDescription(cell.textContent) || '';
@@ -1084,8 +1091,8 @@ const SESSION_DESC = {
 
       ics += 'BEGIN:VEVENT\r\n';
       ics += 'UID:gaz26-' + i + '-' + ev.dtStart + '@genaizurich.ch\r\n';
-      ics += 'DTSTART;TZID=Europe/Zurich:' + ev.dtStart + '\r\n';
-      ics += 'DTEND;TZID=Europe/Zurich:' + ev.dtEnd + '\r\n';
+      ics += 'DTSTART:' + ev.dtStart + '\r\n';
+      ics += 'DTEND:' + ev.dtEnd + '\r\n';
       ics += 'SUMMARY:' + cleanTitle + '\r\n';
       ics += 'DESCRIPTION:' + cleanDesc + '\r\n';
       ics += 'LOCATION:' + cleanLoc + '\r\n';
