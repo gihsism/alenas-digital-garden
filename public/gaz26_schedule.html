@@ -980,23 +980,63 @@ const SESSION_DESC = {
   };
 
   // Parse attending cells into structured events
+  // Build a column-index map for each row accounting for rowspans
+  function buildColMap(table) {
+    const rows = table.querySelectorAll('tbody tr');
+    const map = new Map(); // row element -> Map(td element -> logical column index)
+    const spanTracker = []; // spanTracker[col] = rows remaining
+
+    rows.forEach(row => {
+      const cellMap = new Map();
+      const tds = row.querySelectorAll('td');
+      let logicalCol = 0;
+      let tdIdx = 0;
+
+      while (tdIdx < tds.length || logicalCol < 8) {
+        // Skip columns occupied by a rowspan from a previous row
+        while (spanTracker[logicalCol] && spanTracker[logicalCol] > 0) {
+          spanTracker[logicalCol]--;
+          logicalCol++;
+        }
+        if (tdIdx >= tds.length) break;
+
+        const td = tds[tdIdx];
+        cellMap.set(td, logicalCol);
+
+        const rs = parseInt(td.getAttribute('rowspan')) || 1;
+        const cs = parseInt(td.getAttribute('colspan')) || 1;
+        for (let c = 0; c < cs; c++) {
+          if (rs > 1) spanTracker[logicalCol + c] = rs - 1;
+        }
+        logicalCol += cs;
+        tdIdx++;
+      }
+      map.set(row, cellMap);
+    });
+    return map;
+  }
+
   function getAttendingEvents() {
     const events = [];
     const tables = document.querySelectorAll('table');
-    const dayDates = ['20260401', '20260402']; // April 1 & 2, 2026
+    const dayDates = ['20260401', '20260402'];
 
     tables.forEach((table, ti) => {
       const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
       const date = dayDates[ti] || dayDates[0];
+      const colMap = buildColMap(table);
       const rows = table.querySelectorAll('tbody tr');
 
       rows.forEach(row => {
+        const cellMap = colMap.get(row);
+        if (!cellMap) return;
         const cells = row.querySelectorAll('td');
         const attending = row.querySelectorAll('td.attending');
         if (attending.length === 0) return;
 
-        const timeText = cells[0] ? cells[0].textContent.trim() : '';
-        // Parse time range like "09:30–10:00" or "09:30–10:30"
+        // Find the time cell (logical column 0)
+        let timeText = '';
+        cells.forEach(c => { if (cellMap.get(c) === 0) timeText = c.textContent.trim(); });
         const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/);
         if (!timeMatch) return;
 
@@ -1008,17 +1048,41 @@ const SESSION_DESC = {
         const dtEnd = date + 'T' + endH + endM + '00';
 
         attending.forEach(cell => {
-          const ci = Array.from(cells).indexOf(cell);
-          const stage = headers[ci] || '';
+          const logCol = cellMap.get(cell);
+          const stage = (logCol != null && headers[logCol]) ? headers[logCol] : '';
           const strong = cell.querySelector('strong');
           const title = strong ? strong.textContent.trim() : cell.textContent.trim().substring(0, 60);
-          const desc = findDescription(cell.textContent) || '';
 
-          events.push({ title, stage, desc, dtStart, dtEnd, date });
+          // Try to get a better end time from cell text (for rowspan cells)
+          let evEnd = dtEnd;
+          const cellTimeMatch = cell.textContent.match(/\((\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/);
+          if (cellTimeMatch) {
+            evEnd = date + 'T' + cellTimeMatch[3].padStart(2, '0') + cellTimeMatch[4] + '00';
+          }
+
+          const desc = findDescription(cell.textContent) || '';
+          events.push({ title, stage, desc, dtStart, dtEnd: evEnd, date });
         });
       });
     });
     return events;
+  }
+
+  // ICS line folding: max 75 octets per line (RFC 5545)
+  function foldLine(line) {
+    if (line.length <= 75) return line;
+    let result = line.substring(0, 75);
+    let pos = 75;
+    while (pos < line.length) {
+      result += '\r\n ' + line.substring(pos, pos + 74);
+      pos += 74;
+    }
+    return result;
+  }
+
+  // Escape text for ICS property values
+  function icsEscape(text) {
+    return text.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
   }
 
   // Export as .ics (works with Outlook, Apple Calendar, etc.)
@@ -1026,35 +1090,50 @@ const SESSION_DESC = {
     const events = getAttendingEvents();
     if (events.length === 0) { alert('No sessions selected yet.'); return; }
 
-    let ics = [
+    const lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//GenAI Zurich 2026//Schedule//EN',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
-      'X-WR-CALNAME:GenAI Zürich 2026',
-      'X-WR-TIMEZONE:Europe/Zurich'
+      'X-WR-CALNAME:GenAI Zurich 2026',
+      'X-WR-TIMEZONE:Europe/Zurich',
+      'BEGIN:VTIMEZONE',
+      'TZID:Europe/Zurich',
+      'BEGIN:STANDARD',
+      'DTSTART:19701025T030000',
+      'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU',
+      'TZOFFSETFROM:+0200',
+      'TZOFFSETTO:+0100',
+      'TZNAME:CET',
+      'END:STANDARD',
+      'BEGIN:DAYLIGHT',
+      'DTSTART:19700329T020000',
+      'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU',
+      'TZOFFSETFROM:+0100',
+      'TZOFFSETTO:+0200',
+      'TZNAME:CEST',
+      'END:DAYLIGHT',
+      'END:VTIMEZONE'
     ];
 
     events.forEach((ev, i) => {
       const uid = 'gaz26-' + ev.dtStart + '-' + i + '@genaizurich.ch';
-      const descEscaped = (ev.desc + '\\n\\nStage: ' + ev.stage).replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
-      const titleEscaped = ev.title.replace(/,/g, '\\,').replace(/;/g, '\\;');
-      ics.push(
-        'BEGIN:VEVENT',
-        'UID:' + uid,
-        'DTSTART;TZID=Europe/Zurich:' + ev.dtStart,
-        'DTEND;TZID=Europe/Zurich:' + ev.dtEnd,
-        'SUMMARY:' + titleEscaped,
-        'DESCRIPTION:' + descEscaped,
-        'LOCATION:Kongresshaus Zürich – ' + ev.stage,
-        'END:VEVENT'
-      );
+      const descText = ev.desc ? ev.desc + '\\n\\nStage: ' + ev.stage : 'Stage: ' + ev.stage;
+      lines.push('BEGIN:VEVENT');
+      lines.push('UID:' + uid);
+      lines.push('DTSTART;TZID=Europe/Zurich:' + ev.dtStart);
+      lines.push('DTEND;TZID=Europe/Zurich:' + ev.dtEnd);
+      lines.push(foldLine('SUMMARY:' + icsEscape(ev.title)));
+      lines.push(foldLine('DESCRIPTION:' + icsEscape(descText)));
+      lines.push(foldLine('LOCATION:' + icsEscape('Kongresshaus Zurich - ' + ev.stage)));
+      lines.push('STATUS:CONFIRMED');
+      lines.push('END:VEVENT');
     });
 
-    ics.push('END:VCALENDAR');
+    lines.push('END:VCALENDAR');
 
-    const blob = new Blob([ics.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
