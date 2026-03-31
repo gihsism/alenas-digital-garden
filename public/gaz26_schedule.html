@@ -113,8 +113,10 @@
 <div class="toolbar">
   <span class="count" id="count">0 selected</span>
   <label class="filter-toggle"><input type="checkbox" id="filterToggle" onchange="toggleFilter()"> Show only my selections</label>
-  <button onclick="exportText()">Export as .txt</button>
-  <button onclick="exportEmail()">Email my schedule</button>
+  <button onclick="exportText()">Export .txt</button>
+  <button onclick="exportEmail()">Email</button>
+  <button onclick="exportICS()">Outlook / Apple (.ics)</button>
+  <button onclick="exportGCal()">Google Calendar</button>
   <button class="danger" onclick="clearAll()">Clear all</button>
 </div>
 
@@ -934,6 +936,110 @@ const SESSION_DESC = {
     a.download = 'gaz26_my_schedule.txt';
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  // Parse attending cells into structured events
+  function getAttendingEvents() {
+    const events = [];
+    const tables = document.querySelectorAll('table');
+    const dayDates = ['20260401', '20260402']; // April 1 & 2, 2026
+
+    tables.forEach((table, ti) => {
+      const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
+      const date = dayDates[ti] || dayDates[0];
+      const rows = table.querySelectorAll('tbody tr');
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const attending = row.querySelectorAll('td.attending');
+        if (attending.length === 0) return;
+
+        const timeText = cells[0] ? cells[0].textContent.trim() : '';
+        // Parse time range like "09:30–10:00" or "09:30–10:30"
+        const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/);
+        if (!timeMatch) return;
+
+        const startH = timeMatch[1].padStart(2, '0');
+        const startM = timeMatch[2];
+        const endH = timeMatch[3].padStart(2, '0');
+        const endM = timeMatch[4];
+        const dtStart = date + 'T' + startH + startM + '00';
+        const dtEnd = date + 'T' + endH + endM + '00';
+
+        attending.forEach(cell => {
+          const ci = Array.from(cells).indexOf(cell);
+          const stage = headers[ci] || '';
+          const strong = cell.querySelector('strong');
+          const title = strong ? strong.textContent.trim() : cell.textContent.trim().substring(0, 60);
+          const desc = findDescription(cell.textContent) || '';
+
+          events.push({ title, stage, desc, dtStart, dtEnd, date });
+        });
+      });
+    });
+    return events;
+  }
+
+  // Export as .ics (works with Outlook, Apple Calendar, etc.)
+  window.exportICS = function() {
+    const events = getAttendingEvents();
+    if (events.length === 0) { alert('No sessions selected yet.'); return; }
+
+    let ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//GenAI Zurich 2026//Schedule//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'X-WR-CALNAME:GenAI Zürich 2026',
+      'X-WR-TIMEZONE:Europe/Zurich'
+    ];
+
+    events.forEach((ev, i) => {
+      const uid = 'gaz26-' + ev.dtStart + '-' + i + '@genaizurich.ch';
+      const descEscaped = (ev.desc + '\\n\\nStage: ' + ev.stage).replace(/\n/g, '\\n').replace(/,/g, '\\,').replace(/;/g, '\\;');
+      const titleEscaped = ev.title.replace(/,/g, '\\,').replace(/;/g, '\\;');
+      ics.push(
+        'BEGIN:VEVENT',
+        'UID:' + uid,
+        'DTSTART;TZID=Europe/Zurich:' + ev.dtStart,
+        'DTEND;TZID=Europe/Zurich:' + ev.dtEnd,
+        'SUMMARY:' + titleEscaped,
+        'DESCRIPTION:' + descEscaped,
+        'LOCATION:Kongresshaus Zürich – ' + ev.stage,
+        'END:VEVENT'
+      );
+    });
+
+    ics.push('END:VCALENDAR');
+
+    const blob = new Blob([ics.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gaz26_my_schedule.ics';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Export to Google Calendar (opens tabs for each event)
+  window.exportGCal = function() {
+    const events = getAttendingEvents();
+    if (events.length === 0) { alert('No sessions selected yet.'); return; }
+
+    if (events.length > 5 && !confirm('This will open ' + events.length + ' browser tabs (one per event). Continue?')) return;
+
+    events.forEach(ev => {
+      const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: ev.title,
+        dates: ev.dtStart + '/' + ev.dtEnd,
+        ctz: 'Europe/Zurich',
+        details: ev.desc + '\n\nStage: ' + ev.stage,
+        location: 'Kongresshaus Zürich – ' + ev.stage
+      });
+      window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank');
+    });
   };
 
   // Export via mailto
