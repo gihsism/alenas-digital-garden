@@ -6,7 +6,7 @@
 <title>GenAI Zürich 2026 – Full Schedule</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; padding: 20px; font-size: 13px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; padding: 20px; font-size: 13px; -webkit-text-size-adjust: 100%; }
   h1 { text-align: center; margin-bottom: 8px; font-size: 1.6em; }
   h2 { text-align: center; margin: 30px 0 12px; font-size: 1.3em; color: #333; border-bottom: 2px solid #6c5ce7; padding-bottom: 6px; }
   .legend { text-align: center; margin-bottom: 10px; font-size: 0.85em; color: #666; }
@@ -58,13 +58,57 @@
   .toolbar .count { padding: 8px 12px; background: #e8f5e9; border-radius: 6px; font-weight: 600; color: #2e7d32; font-size: 13px; display: flex; align-items: center; }
   .filter-toggle { display: flex; align-items: center; gap: 4px; padding: 8px 12px; background: #f0edfc; border-radius: 6px; font-size: 13px; cursor: pointer; user-select: none; }
   .filter-toggle input { cursor: pointer; }
+
+  /* Stage filter */
+  .stage-filter { display: none; text-align: center; margin-bottom: 14px; }
+  .stage-filter select { padding: 8px 12px; border: 1px solid #6c5ce7; border-radius: 6px; font-size: 14px; background: #fff; color: #333; width: 100%; max-width: 350px; }
+  .stage-filter label { font-size: 13px; color: #555; display: block; margin-bottom: 4px; }
+
+  /* Mobile responsive */
+  @media (max-width: 900px) {
+    body { padding: 10px; font-size: 14px; }
+    h1 { font-size: 1.3em; }
+    h2 { font-size: 1.1em; margin: 20px 0 10px; }
+
+    .stage-filter { display: block; }
+
+    table { display: block; overflow: hidden; }
+    thead { display: none; }
+    tbody { display: block; }
+    tr { display: block; margin-bottom: 8px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); background: #fff; }
+    tr:nth-child(even) { background: #fff; }
+    td { display: none; border: none; padding: 10px 12px; }
+    td.time { display: block !important; background: #6c5ce7 !important; color: #fff !important; font-size: 14px; font-weight: 700; padding: 8px 12px; min-width: unset; white-space: normal; }
+    td.mobile-visible { display: block !important; }
+    td.empty.mobile-visible { display: none !important; }
+    td.selectable { max-height: none; overflow: visible; }
+    td.selectable::after { display: none; }
+
+    tr.break { margin-bottom: 4px; border-radius: 4px; }
+    tr.break td { display: none; }
+    tr.break td[colspan] { display: block !important; padding: 6px 12px; font-size: 13px; }
+    tr.break td.time { display: none !important; }
+
+    .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+    .toolbar button { padding: 10px 16px; font-size: 14px; }
+    .toolbar .count { justify-content: center; }
+    .filter-toggle { justify-content: center; }
+
+    .desc-tooltip { position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; top: auto !important; max-width: 100% !important; width: 100% !important; border-radius: 14px 14px 0 0; max-height: 45vh; overflow-y: auto; padding: 16px 18px 24px; }
+    .desc-tooltip .dt-title { font-size: 14px; }
+    .desc-tooltip .dt-body { font-size: 13px; }
+
+    td.dimmed { display: none !important; }
+    .mobile-only { display: inline; }
+  }
+  .mobile-only { display: none; }
 </style>
 </head>
 <body>
 <div class="desc-tooltip" id="tooltip"><div class="dt-title" id="ttTitle"></div><div class="dt-body" id="ttBody"></div></div>
 
 <h1>GenAI Zürich 2026 – Complete Schedule</h1>
-<p class="legend">1–2 April 2026 · Kongresshaus Zürich · All stages side by side<br>Click any session to mark it as attending. Your selections are saved locally.</p>
+<p class="legend">1–2 April 2026 · Kongresshaus Zürich · All stages side by side<br>Click any session to mark it as attending. Your selections are saved locally.<br class="mobile-only">On mobile: tap once for details, tap again to attend.</p>
 
 <div class="toolbar">
   <span class="count" id="count">0 selected</span>
@@ -72,6 +116,20 @@
   <button onclick="exportText()">Export as .txt</button>
   <button onclick="exportEmail()">Email my schedule</button>
   <button class="danger" onclick="clearAll()">Clear all</button>
+</div>
+
+<div class="stage-filter">
+  <label for="stageSelect">View stage:</label>
+  <select id="stageSelect" onchange="filterStage(this.value)">
+    <option value="all">All stages (scroll horizontally)</option>
+    <option value="1">Main Stage</option>
+    <option value="2">Use Case Stage</option>
+    <option value="3">Tech &amp; Startup Stage</option>
+    <option value="4">Workshops I</option>
+    <option value="5">Workshops II</option>
+    <option value="6">Roundtables</option>
+    <option value="7">Hackathon Space</option>
+  </select>
 </div>
 
 <!-- ============ DAY 1 ============ -->
@@ -743,6 +801,7 @@ const SESSION_DESC = {
 
 (function() {
   const STORAGE_KEY = 'gaz26_attending';
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
 
   // Assign stable IDs to all selectable cells
   function init() {
@@ -761,10 +820,27 @@ const SESSION_DESC = {
 
           cell.classList.add('selectable');
           cell.dataset.id = `t${ti}_r${ri}_c${ci}`;
-          cell.addEventListener('click', (e) => { e.stopPropagation(); toggle(cell); });
-          cell.addEventListener('mouseenter', (e) => { cell.classList.add('expanded'); showTooltip(cell, e); });
-          cell.addEventListener('mousemove', (e) => moveTooltip(e));
-          cell.addEventListener('mouseleave', () => { cell.classList.remove('expanded'); hideTooltip(); });
+          if (isMobile) {
+            cell.addEventListener('click', (e) => {
+              e.stopPropagation();
+              // If tooltip is already showing for this cell, toggle attendance
+              if (cell._tooltipShown) {
+                toggle(cell);
+                cell._tooltipShown = false;
+                hideTooltip();
+              } else {
+                // Hide any other tooltip, show this one
+                document.querySelectorAll('td.selectable').forEach(c => c._tooltipShown = false);
+                cell._tooltipShown = true;
+                showTooltip(cell, e);
+              }
+            });
+          } else {
+            cell.addEventListener('click', (e) => { e.stopPropagation(); toggle(cell); });
+            cell.addEventListener('mouseenter', (e) => { cell.classList.add('expanded'); showTooltip(cell, e); });
+            cell.addEventListener('mousemove', (e) => moveTooltip(e));
+            cell.addEventListener('mouseleave', () => { cell.classList.remove('expanded'); hideTooltip(); });
+          }
         });
       });
     });
@@ -962,6 +1038,41 @@ const SESSION_DESC = {
 
   function hideTooltip() {
     tooltip.classList.remove('visible');
+  }
+
+  // Mobile: stage column filter
+  window.filterStage = function(col) {
+    document.querySelectorAll('table').forEach(table => {
+      const rows = table.querySelectorAll('tbody tr, thead tr');
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('th, td');
+        cells.forEach((cell, i) => {
+          if (i === 0) return; // always show time
+          cell.classList.remove('mobile-visible');
+          if (col === 'all' || i === parseInt(col)) {
+            cell.classList.add('mobile-visible');
+          }
+        });
+      });
+    });
+  };
+
+  // Mobile: tap outside to dismiss tooltip
+  if (isMobile) {
+    document.addEventListener('click', (e) => {
+      // If tapping outside a selectable cell, hide tooltip
+      if (!e.target.closest('td.selectable')) {
+        hideTooltip();
+      }
+    });
+  }
+
+  // Initialize: default to Main Stage on mobile
+  if (isMobile) {
+    document.getElementById('stageSelect').value = '1';
+    filterStage('1');
+  } else {
+    filterStage('all');
   }
 
   init();
