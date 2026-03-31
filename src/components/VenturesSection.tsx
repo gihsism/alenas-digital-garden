@@ -22,6 +22,11 @@ const sideProjects = [
     github: "https://github.com/gihsism/disclosure-checklist",
     description: "AI-powered IFRS disclosure compliance analyzer for financial statements.",
   },
+  {
+    name: "GenAI Zurich 2026 Schedule",
+    url: "https://alenanikolskaia.com/gaz26_schedule.html",
+    description: "Interactive schedule for the GenAI Zurich 2026 conference.",
+  },
 ];
 
 const VenturesSection = () => {
