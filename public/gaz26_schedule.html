@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GenAI Zürich 2026 – Full Schedule</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #1a1a1a; padding: 20px; font-size: 13px; }
+  h1 { text-align: center; margin-bottom: 8px; font-size: 1.6em; }
+  h2 { text-align: center; margin: 30px 0 12px; font-size: 1.3em; color: #333; border-bottom: 2px solid #6c5ce7; padding-bottom: 6px; }
+  .legend { text-align: center; margin-bottom: 10px; font-size: 0.85em; color: #666; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  th { background: #6c5ce7; color: #fff; padding: 8px 6px; text-align: left; font-size: 0.85em; position: sticky; top: 0; z-index: 10; }
+  td { padding: 6px; border: 1px solid #e0e0e0; vertical-align: top; }
+  tr:nth-child(even) { background: #fafafa; }
+  .time { font-weight: 700; white-space: nowrap; min-width: 90px; background: #f0edfc; }
+  .break { background: #fff3cd !important; font-style: italic; color: #856404; text-align: center; }
+  .break td { background: #fff3cd; }
+  .speaker { color: #555; font-size: 0.9em; }
+  .company { color: #6c5ce7; font-size: 0.85em; }
+  .empty { color: #ccc; text-align: center; }
+  strong { font-weight: 600; }
+  .note { font-size: 0.8em; color: #888; margin-top: 2px; }
+
+  /* Selectable session cells */
+  td.selectable { cursor: pointer; transition: background 0.15s, box-shadow 0.15s, max-height 0.3s ease; position: relative; overflow: hidden; max-height: 2.8em; }
+  td.selectable::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 16px; background: linear-gradient(transparent, #fff); pointer-events: none; transition: opacity 0.2s; }
+  tr:nth-child(even) td.selectable::after { background: linear-gradient(transparent, #fafafa); }
+  td.selectable.attending::after { background: linear-gradient(transparent, #d4edda); }
+  td.selectable.expanded { max-height: 600px; }
+  td.selectable.expanded::after { opacity: 0; }
+  td.selectable:hover { box-shadow: inset 0 0 0 2px #6c5ce7aa; }
+  td.attending { background: #d4edda !important; box-shadow: inset 0 0 0 2px #28a745; }
+  td.attending::before { content: "\2713 "; font-weight: bold; color: #28a745; }
+
+  /* Dimmed cells when filtering */
+  td.dimmed { color: transparent !important; background: #fff !important; border-color: #f0f0f0 !important; }
+  td.dimmed * { color: transparent !important; }
+  td.dimmed::after { display: none; }
+  td.dimmed.selectable { box-shadow: none !important; pointer-events: none; }
+  tr:nth-child(even) td.dimmed { background: #fafafa !important; }
+  .break.filtered-break td { background: #fff !important; color: transparent !important; border-color: #f0f0f0 !important; }
+  td.time.dimmed { background: #fff !important; color: transparent !important; }
+
+  /* Description tooltip */
+  .desc-tooltip { position: fixed; z-index: 1000; max-width: 420px; padding: 14px 16px; background: #1a1a2e; color: #eee; border-radius: 10px; font-size: 12.5px; line-height: 1.55; box-shadow: 0 8px 30px rgba(0,0,0,0.35); pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+  .desc-tooltip.visible { opacity: 1; }
+  .desc-tooltip .dt-title { font-weight: 700; color: #a29bfe; margin-bottom: 6px; font-size: 13px; }
+  .desc-tooltip .dt-body { color: #ddd; }
+
+  /* Toolbar */
+  .toolbar { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .toolbar button { padding: 8px 16px; border: 1px solid #6c5ce7; background: #fff; color: #6c5ce7; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+  .toolbar button:hover { background: #6c5ce7; color: #fff; }
+  .toolbar button.danger { border-color: #dc3545; color: #dc3545; }
+  .toolbar button.danger:hover { background: #dc3545; color: #fff; }
+  .toolbar .count { padding: 8px 12px; background: #e8f5e9; border-radius: 6px; font-weight: 600; color: #2e7d32; font-size: 13px; display: flex; align-items: center; }
+  .filter-toggle { display: flex; align-items: center; gap: 4px; padding: 8px 12px; background: #f0edfc; border-radius: 6px; font-size: 13px; cursor: pointer; user-select: none; }
+  .filter-toggle input { cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="desc-tooltip" id="tooltip"><div class="dt-title" id="ttTitle"></div><div class="dt-body" id="ttBody"></div></div>
+
+<h1>GenAI Zürich 2026 – Complete Schedule</h1>
+<p class="legend">1–2 April 2026 · Kongresshaus Zürich · All stages side by side<br>Click any session to mark it as attending. Your selections are saved locally.</p>
+
+<div class="toolbar">
+  <span class="count" id="count">0 selected</span>
+  <label class="filter-toggle"><input type="checkbox" id="filterToggle" onchange="toggleFilter()"> Show only my selections</label>
+  <button onclick="exportText()">Export as .txt</button>
+  <button onclick="exportEmail()">Email my schedule</button>
+  <button class="danger" onclick="clearAll()">Clear all</button>
+</div>
+
+<!-- ============ DAY 1 ============ -->
+<h2>Day 1 – Wednesday, 1 April 2026</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Time</th>
+  <th>Main Stage</th>
+  <th>Use Case Stage</th>
+  <th>Tech &amp; Startup Stage</th>
+  <th>Workshops I (Zimmer 20)</th>
+  <th>Workshops II (Zimmer 22)</th>
+  <th>Roundtables (Zimmer 23)</th>
+  <th>Hackathon Space</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td class="time">08:00</td>
+  <td>Registration Opens</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td>Doors Open</td>
+</tr>
+
+<tr>
+  <td class="time">09:00–09:10</td>
+  <td><strong>Opening Remarks</strong><br><span class="speaker">Eric Anderegg</span> <span class="company">GenAI Zürich</span></td>
+  <td class="empty" rowspan="1">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td rowspan="3">Open Hacking Time<br>(09:00–12:00)</td>
+</tr>
+
+<tr>
+  <td class="time">09:10–09:25</td>
+  <td><strong>Keynote: "Switzerland Hosting the 2027 AI Summit in Geneva"</strong><br><span class="speaker">Amb. Markus Reubi</span> <span class="company">Geneva AI Summit</span></td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">09:30–10:00</td>
+  <td><strong>Open-Source GenAI</strong><br>
+    • Merve Noyan <span class="company">Hugging Face</span> – "Open ML Ecosystem"<br>
+    • Imanol Schlag <span class="company">ETH AI Center</span> – "Apertus: Democratizing Open LLMs"</td>
+  <td><strong>GenAI Zürich Award Pitches</strong> (09:30–10:55)<br>
+    Mod: Hilda Liswani <span class="company">WeBloom</span><br>
+    • Micha Brugger <span class="company">Studyond</span><br>
+    • Sercan Ates <span class="company">Helvetia Baloise</span> – Balingo<br>
+    • Fabrice Gürmann <span class="company">Saipient</span><br>
+    • Dr. Samuel Läubli <span class="company">Supertext</span><br>
+    • Dr. Sachit Mahajan <span class="company">ETH</span> – Provenance Lab<br>
+    • Rehouven Libine <span class="company">PMI</span><br>
+    • Ajit Azariah <span class="company">Syngenta</span></td>
+  <td class="empty">–</td>
+  <td><strong>Cognizant Workshop</strong> (09:30–10:30)<br>"The 5% Club: POC to Production"<br><span class="speaker">N. Athanasopoulos, S. Maguire, V. Schmid</span></td>
+  <td><strong>Reshape Workshop</strong> (09:30–10:30)</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">10:00–10:30</td>
+  <td><strong>Keynote: "In Search of Winning AI Use Cases"</strong><br><span class="speaker">Slavik Dimitrovich</span> <span class="company">AWS</span></td>
+  <td>↑ Award Pitches cont.</td>
+  <td><strong>Sovereign AI &amp; Infrastructure</strong> (10:00–10:30)<br>
+    • Vandeperre &amp; Nigon <span class="company">Red Hat</span> – "AI Infrastructure You Control"<br>
+    • A. Zehetmaier <span class="company">Xinity</span> – "Sovereign AI Stack"<br>
+    • Dr. Agata Ferretti <span class="company">IBM Research</span> – "Talking to Your Data"</td>
+  <td>↑ Cognizant cont.</td>
+  <td>↑ Reshape cont.</td>
+  <td class="empty">–</td>
+  <td>↑</td>
+</tr>
+
+<tr class="break">
+  <td class="time">10:30–11:00</td>
+  <td colspan="7">☕ Coffee Break</td>
+</tr>
+
+<tr>
+  <td class="time">10:45–11:45</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>MongoDB Workshop</strong><br>"Systems of Action: Agentic Operating Model"<br><span class="speaker">Albert Cortez</span> <span class="company">MongoDB</span></td>
+  <td><strong>Snowflake Workshop</strong> (10:45–11:45)<br>"AI Without the Effort"<br><span class="speaker">Dr. Fabian Gampfer</span> <span class="company">Snowflake</span></td>
+  <td class="empty">–</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">11:00–11:50</td>
+  <td><strong>GenAI Tech Stack</strong><br>
+    • Serena Yuen <span class="company">Dataiku</span> – "Scaling AI Agents"<br>
+    • Wim Stoop <span class="company">Cloudera</span> – "Prototype to Production"<br>
+    • Jan Curn <span class="company">Apify</span> – "CLI vs MCP"</td>
+  <td><strong>GenAI in Banking</strong> (11:00–13:00)<br>
+    • Simon Hecker <span class="company">fore ai</span> – Hidden Costs<br>
+    • Christian Sebregondi <span class="company">ZKB</span> – AI Journey<br>
+    • Edward Rebane <span class="company">Citadele</span> – Personalization<br>
+    • Sarah Gadd <span class="company">Julius Baer</span> – Ethics<br>
+    • Windus &amp; Heidel <span class="company">Wavestone</span> – Agentic AI<br>
+    • Shirin Aalami <span class="company">AppliedAI</span> – Opus Platform<br>
+    • Jonas Epp <span class="company">SIX Group</span> – Operating Models</td>
+  <td><strong>Constraining AI / Agents</strong> (11:00–12:30)<br>
+    • Dr. H. Venturini <span class="company">SkipLabs</span> – "Constraining AI"<br>
+    • Dr. A. Dmitrenko <span class="company">D ONE</span> – "Business Superintelligence"<br>
+    • D. Voskvitsov <span class="company">EXANTE</span> – "Multi-Agent Trust"<br>
+    • J. Ravnik <span class="company">Qubera</span> – "LLMs Fail on Excel"</td>
+  <td>↑ MongoDB cont.</td>
+  <td>↑ Snowflake cont.</td>
+  <td class="empty">–</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">11:55–12:30</td>
+  <td><strong>GenAI Solutions</strong><br>
+    • Ajallooeian &amp; Frels <span class="company">Unit8</span> – Interactive AI Agents<br>
+    • M. Wellner <span class="company">KPMG</span> – AI Value First<br>
+    • Athanasopoulos &amp; Löwenberg <span class="company">Lufthansa</span> – Scaling GenAI</td>
+  <td>↑ Banking cont.</td>
+  <td>↑ cont.</td>
+  <td class="empty">–</td>
+  <td><strong>Veezoo Workshop</strong> (12:00–13:00)<br>"Reliable Agents for Analytics using Knowledge Graphs"<br><span class="speaker">João Pedro Monteiro</span> <span class="company">Veezoo</span></td>
+  <td class="empty">–</td>
+  <td rowspan="2">Lunch (12:00–13:00)</td>
+</tr>
+
+<tr class="break">
+  <td class="time">12:30–13:30</td>
+  <td colspan="5">🍽 Lunch Break</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">12:00–13:00</td>
+  <td class="empty">–</td>
+  <td>↑ Banking cont.</td>
+  <td>↑ cont.</td>
+  <td><strong>Cloudera Workshop</strong><br>"Zero to Agentic: Build AI Agents in 10 Min"<br><span class="speaker">Edel &amp; Stoop</span> <span class="company">Cloudera</span></td>
+  <td>↑ Veezoo cont.</td>
+  <td class="empty">–</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">13:15–14:15</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>Apify Workshop</strong><br>"How to Feed Your AI Agents with Data"<br><span class="speaker">Vystrčil, Jarour, Bekr</span> <span class="company">Apify</span></td>
+  <td class="empty">–</td>
+  <td rowspan="3">Open Hacking (13:00–15:00)<br>Science Fair Mentoring</td>
+</tr>
+
+<tr>
+  <td class="time">13:30–14:00</td>
+  <td><strong>Afternoon Opening + Keynote (TBA)</strong></td>
+  <td class="empty">–</td>
+  <td><strong>Agentic AI &amp; MCP</strong> (13:30–14:00)<br>
+    • T. Kley <span class="company">tialto</span> – "Migrating with Agentic AI"<br>
+    • Jäger &amp; Laukkanen <span class="company">Aixolotl</span> – "End of Tool-Hopping"</td>
+  <td class="empty">–</td>
+  <td>↑ Apify cont.</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">14:00–15:00</td>
+  <td><strong>GenAI Security</strong> (14:00–14:20)<br>
+    • T. Bozsolik-Torres <span class="company">SandboxAQ</span> – Shadow AI<br>
+    • D. Balaj <span class="company">XY CYBER</span> – Predicting Attacks</td>
+  <td><strong>GenAI in Insurance</strong><br>
+    • E. Kavtaradze <span class="company">Solvd</span> – Agentic Claims<br>
+    • Dr. M. Ruefenacht <span class="company">Helvetia</span> – AI Concierge<br>
+    • S. Goyal <span class="company">Admiral</span> – Context-First AI<br>
+    • M. Apazoglou <span class="company">Zurich</span> – Reimagining Work</td>
+  <td><strong>Geneva 2027 AI Summit Roundtable</strong> (14:00–15:30, invite-only)<br>
+    Stauffacher, Schneider, Reubi</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>GenAI in Banking</strong> (14:00–15:00, invite-only)<br>Mod: Dr. V. Butenko</td>
+</tr>
+
+<tr>
+  <td class="time">14:20–15:00</td>
+  <td><strong>GenAI Tech Stack</strong><br>
+    • Dr. F. Gampfer <span class="company">Snowflake</span> – Architecture of Trust<br>
+    • Dr. K. Kahn <span class="company">Albatross AI</span> – AI Discovery<br>
+    • J.P. Monteiro <span class="company">Veezoo</span> – 1980s AI &amp; BI<br>
+    • Dr. A. Apollonio <span class="company">Reshape</span> – Industrial Safety</td>
+  <td>↑ Insurance cont.</td>
+  <td>↑ Geneva roundtable</td>
+  <td><strong>Dataiku Workshop</strong> (14:30–15:30)<br>"Beyond Conversational AI"<br><span class="speaker">Dobrina Ivanova</span> <span class="company">Dataiku</span></td>
+  <td><strong>Eraneos Workshop</strong> (14:30–15:30)<br>"Agentic AI in Action: Automate in 1 Hour"<br><span class="speaker">Ribis, Wackenhut, Aalami</span></td>
+  <td>↑</td>
+  <td rowspan="2">Open Hacking (15:00–17:50)</td>
+</tr>
+
+<tr class="break">
+  <td class="time">15:00–15:30</td>
+  <td colspan="6">☕ Coffee Break</td>
+</tr>
+
+<tr>
+  <td class="time">15:30–15:45</td>
+  <td><strong>Inspirational: "When AI &amp; Human Created an Alt-Rock Band"</strong><br><span class="speaker">Luis Quesada</span> <span class="company">Windlereye</span></td>
+  <td><strong>GenAI in Retail</strong> (15:30–16:15)<br>
+    • O. Förg <span class="company">Migros</span> – Chatbots in Minutes<br>
+    • M. Dütsch <span class="company">IKEA</span> – Agentic AI Supply<br>
+    • M.-A. Buchmann <span class="company">Zalando</span> – Agentic Fashion</td>
+  <td class="empty">–</td>
+  <td>↑ Dataiku cont.</td>
+  <td>↑ Eraneos cont.</td>
+  <td><strong>GenAI in Insurance</strong> (15:45–16:45, invite-only)</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">15:45–16:45</td>
+  <td><strong>GenAI Solutions</strong> (15:45–16:45)<br>
+    • Fulterer Burkart &amp; Jeker <span class="company">Eraneos/Raiffeisen</span><br>
+    • Sempere Sanchez &amp; Cavadias <span class="company">Avolta/D ONE</span><br>
+    • Boychuck &amp; Loosli <span class="company">S-PRO/Credura</span><br>
+    • E. Zalesskiy <span class="company">Oxagile</span> – Trustworthy AI</td>
+  <td>↑ Retail cont.<br><br><strong>GenAI Governance &amp; Ethics</strong> (16:20–16:45)<br>
+    • S. Mathews <span class="company">Adecco</span> – Illusion of Intent<br>
+    • Dr. J. Michalska <span class="company">Ethica Group</span></td>
+  <td><strong>"Bitter Lesson for Search"</strong> (15:45–16:45)<br><span class="speaker">Lotte Seifert</span> <span class="company">SID</span></td>
+  <td><strong>Albatross AI Workshop</strong> (15:45–16:45)<br>"Fixing Cold Start at the Root"<br><span class="speaker">Dr. Matteo Ruffini</span></td>
+  <td><strong>KPMG Workshop</strong> (15:45–16:45)<br>"AI Coding Assistants Transform Enterprise Dev"<br><span class="speaker">Michael Wellner</span> <span class="company">KPMG</span></td>
+  <td>↑ Insurance cont.</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">16:50–17:20</td>
+  <td><strong>Panel: Current State of GenAI in the Enterprise</strong></td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>GenAI in Retail</strong> (17:00–18:00, invite-only)</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">17:00–18:00</td>
+  <td><strong>GenAI Zürich Award Ceremony</strong> (17:25–17:55)<br>Mod: Tanya König · Hosts: Wegmüller, Schnidrig<br><br>Closing Remarks (17:55–18:00)</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>S-PRO Workshop</strong> (17:00–18:00)<br>"APEX – AI Prototyping with Claude Code"<br><span class="speaker">Schulze &amp; Barsky</span> <span class="company">S-PRO</span></td>
+  <td><strong>Oxagile Workshop</strong> (17:00–18:00)<br>"Voice-First UX: Live-Building an AI Interviewer"<br><span class="speaker">Andrei Shvedau</span> <span class="company">Oxagile</span></td>
+  <td>↑ Retail cont.</td>
+  <td>Doors Close (18:00)</td>
+</tr>
+
+<tr class="break">
+  <td class="time">18:00–20:00</td>
+  <td colspan="7">🍷 Networking &amp; Bar</td>
+</tr>
+
+<tr class="break">
+  <td class="time">20:00–00:00</td>
+  <td colspan="7">🎉 Official After Party</td>
+</tr>
+
+</tbody>
+</table>
+
+<!-- ============ DAY 2 ============ -->
+<h2>Day 2 – Thursday, 2 April 2026</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Time</th>
+  <th>Main Stage</th>
+  <th>Use Case Stage</th>
+  <th>Tech &amp; Startup Stage</th>
+  <th>Workshops I (Zimmer 20)</th>
+  <th>Workshops II (Zimmer 22)</th>
+  <th>Roundtables (Zimmer 23)</th>
+  <th>Hackathon Space</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td class="time">08:00</td>
+  <td>Doors Open</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td>Doors Open</td>
+</tr>
+
+<tr>
+  <td class="time">09:00–09:25</td>
+  <td><strong>Opening + Keynote: "The Intelligence Bomb"</strong><br><span class="speaker">Aldo Podestà</span> <span class="company">Giotto.ai</span></td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td rowspan="4">Open Hacking Time<br>(09:00–13:00)</td>
+</tr>
+
+<tr>
+  <td class="time">09:30–10:30</td>
+  <td><strong>Physical AI</strong> (co-hosted Davos Tech Summit)<br>
+    • Pascal Kaufmann <span class="company">AlpineAI</span> – Robot Renaissance<br>
+    • Andi Marafioti <span class="company">Hugging Face</span> – Reachy Mini<br>
+    • Dr. J. Peña Queralta <span class="company">Binabik.ai</span> – Humanoid Robots<br><br>
+    <strong>Panel: "Embodying GenAI"</strong> (10:05–10:30)</td>
+  <td><strong>Manufacturing &amp; Construction</strong> (09:30–10:00)<br>
+    • M. Korz <span class="company">ZF</span> – "GPT to Agent Orchestration"<br>
+    • P. Hölzenbein <span class="company">Raven</span> – "AI in CAD"<br>
+    • N. Gushchin <span class="company">SFS Group</span> – AI Adoption<br><br>
+    <strong>Software Engineering</strong> (10:00–10:25)<br>
+    • R. Jourdan <span class="company">AWS</span> – "Stop Prompting, Start Engineering"</td>
+  <td><strong>GenAI in Action</strong> (09:30–10:30)<br>
+    • M.-O. Gewaltig <span class="company">thesify.ai</span> – Document Intelligence<br>
+    • Dr. C. Koeppel <span class="company">Swisper</span> – Pilots to Production<br>
+    • P. Helbling <span class="company">innovAIro</span> – SaaS Waste<br>
+    • C. Ryan <span class="company">iosys</span> – PDF to ERP<br>
+    • P. Nistrup <span class="company">Intellishore</span> – Pharma Agents<br>
+    • K. Brobeil <span class="company">NDI</span> – Pay-Per-Use AI</td>
+  <td><strong>elaboratum Workshop</strong> (09:30–10:30)<br>"Harnessing Silicon Personas"<br><span class="speaker">Yvo Richner</span> <span class="company">elaboratum</span></td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr class="break">
+  <td class="time">10:30–11:00</td>
+  <td colspan="6">☕ Coffee Break</td>
+</tr>
+
+<tr>
+  <td class="time">11:00–12:00</td>
+  <td><strong>GenAI Tech Stack</strong><br>
+    • O. Sanseviero <span class="company">Google DeepMind</span> – "AI Stack for Developers"<br>
+    • M. Czerwinski <span class="company">DeepL</span> – "Specialized Language AI"<br><br>
+    <strong>GenAI Solutions</strong> (11:30–12:00)<br>
+    • D'Onofrio &amp; Weber <span class="company">Groupe Mutuel / elaboratum</span> – Agentic Marketing<br>
+    • S. Ravizza <span class="company">Artifact</span> – AI &amp; Humans</td>
+  <td><strong>GenAI in Legal</strong> (11:00–11:30)<br>
+    • D.A. Bloch <span class="company">Legartis</span> – "AI's Predictable Error"<br>
+    • T. Kuster <span class="company">LEXR</span> – "Agentic AI Legal Challenges"<br>
+    • V. Mohan <span class="company">Smallpdf</span> – Responsible AI Stack<br><br>
+    <strong>GenAI in Media</strong> (11:35–12:05)<br>
+    • L. De Marchi <span class="company">Thomson Reuters</span> – "Gen AI in the News"<br>
+    • Bühler &amp; von Däniken <span class="company">ZHAW</span> – AI vs Hate Speech</td>
+  <td><strong>Building Reliable AI</strong> (11:00–12:05)<br>
+    • A. Carol <span class="company">Adobe</span> – Testing LLM Outputs<br>
+    • C. Sridi <span class="company">Qdrant</span> – AI at the Edge<br>
+    • L. Rienau <span class="company">Cohere</span> – Full-Stack Sovereignty<br>
+    • D. Verheijke <span class="company">Featherless AI</span> – Specialized Models<br>
+    • D. Ungureanu <span class="company">Elma</span> – Edge AI</td>
+  <td class="empty">–</td>
+  <td rowspan="2"><strong>AWS Workshop</strong> (10:30–12:30)<br>"Zero to Production-Ready Agents: AgentCore Deep Dive"<br><span class="speaker">Jacky Tam, Roberto Catalano</span> <span class="company">AWS</span></td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">12:00–12:40</td>
+  <td><strong>GenAI in the Arts: Film Hackathon Finals</strong> (12:00–12:30)<br>(co-hosted by Framed Futures)</td>
+  <td><strong>Pharma &amp; Healthcare</strong> (12:10–12:40)<br>
+    • S. Liebe <span class="company">Sonova</span> – GenAI Journey in R&D<br><br>
+    <strong>GenAI Perspectives</strong> (12:45–13:15)<br>
+    • J. Kaufmann <span class="company">Webrepublic</span> – AI Value as SME<br>
+    • P. Burkard <span class="company">TechFace</span> – Slaying Bias</td>
+  <td><strong>Data Sovereignty &amp; Decentralized AI</strong> (12:10–12:40)<br>
+    • R. Damerau <span class="company">Cohesity</span> – Data Sovereignty<br>
+    • P. Tobler <span class="company">Masumi Network</span> – Decentralized AI</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>Governance &amp; Ethics</strong> (12:45–13:45, invite-only)<br>Mod: Anne-Marie Buzatu <span class="company">ICT4Peace</span></td>
+  <td>Projects Submission (13:00)<br>Jury Prep (13:00–14:00)</td>
+</tr>
+
+<tr class="break">
+  <td class="time">12:30–13:30</td>
+  <td colspan="5">🍽 Lunch Break</td>
+  <td>↑ Governance RT</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">13:30–14:00</td>
+  <td><strong>Keynote: "Computer Use: From Knowledge to Autonomous Operations"</strong><br><span class="speaker">Caroline Charra</span> <span class="company">H Company</span></td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td><strong>WiDS Workshop</strong> (13:15–14:15)<br>"Building AI That Works: Simulation of Success &amp; Failure"<br><span class="speaker">A. Pieczko, A. Fedorova</span> <span class="company">WiDS Zurich</span></td>
+  <td class="empty">–</td>
+  <td>↑ Governance RT</td>
+  <td>↑ Jury</td>
+</tr>
+
+<tr>
+  <td class="time">14:00–15:00</td>
+  <td><strong>"Who Is Accountable for the $10M Bug?"</strong> (14:00–14:30)<br><span class="speaker">Andre Sharpe</span> <span class="company">IWG</span><br><br>
+    <strong>Panel: Process Redesign for AI</strong> (14:30–15:00)</td>
+  <td><strong>Transport &amp; Logistics</strong> (14:00–14:25)<br>
+    • Y. Quacken <span class="company">Swiss Post</span> – SLMs &amp; Governance<br>
+    • C. Klaus Boecker <span class="company">Zurich Airport</span> – Responsible AI<br><br>
+    <strong>Workplace</strong> (14:30–15:00)<br>
+    • Ahluwalia &amp; Tagliabue <span class="company">thirty3/Tagliabue</span> – AI Hiring<br>
+    • Kirchgeorg &amp; Haushammer <span class="company">AI Businessschool</span> – Scalable Adoption</td>
+  <td><strong>AI-Augmented Decisions</strong> (14:00–14:30)<br>
+    • P. Ferreiro <span class="company">Databricks</span> – Human-AI Decisions<br>
+    • Dr. V. Butenko – AI Agents Negotiate<br><br>
+    <strong>Research &amp; Education</strong> (14:30–15:00)<br>
+    • P. Kanduri <span class="company">CSCS</span> – Swiss HPC<br>
+    • Dr. A. Villarroel <span class="company">innoverse.ai</span> – Cognitive Debt<br>
+    • M. Huber <span class="company">WE ARE AIA</span> – "Can You See the Algorithm?"</td>
+  <td>↑ WiDS cont.<br><br><strong>Artifact Workshop</strong> (14:30–15:30)<br>"Designing LLM Agents: Frameworks &amp; Trade-offs"<br><span class="speaker">David Limacher</span> <span class="company">Artifact</span></td>
+  <td class="empty">–</td>
+  <td><strong>Pharma &amp; Healthcare</strong> (14:00–15:00, invite-only)</td>
+  <td>Jury Deliberation<br>(14:00–16:00)</td>
+</tr>
+
+<tr class="break">
+  <td class="time">15:00–15:30</td>
+  <td colspan="6">☕ Coffee Break</td>
+  <td>↑ Jury</td>
+</tr>
+
+<tr>
+  <td class="time">15:15–16:15</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td>↑ Artifact cont.</td>
+  <td class="empty">–</td>
+  <td><strong>AI Builders</strong> (15:15–16:15, invite-only)<br>Mod: A.E. Brunner – "For founders &amp; coders only"</td>
+  <td>↑ Jury<br>Finalists announced (16:00)<br>Prep (16:10–17:30)</td>
+</tr>
+
+<tr>
+  <td class="time">15:30–16:00</td>
+  <td><strong>Keynote: "Ethics of GenAI"</strong> (15:30–15:45)<br><span class="speaker">Prof. Dr. P.G. Kirchschlaeger</span> <span class="company">Uni Lucerne</span><br><br>
+    <strong>GenAI Tech Stack</strong> (15:45–16:30)<br>
+    • M. Buckley <span class="company">Exa</span> – "Search APIs for Agents"<br>
+    • (+ more TBA)</td>
+  <td><strong>Humanitarian Aid</strong> (15:30–16:30)<br>
+    • A.-M. Buzatu <span class="company">ICT4Peace</span> – Responsible AI Platform<br>
+    • P. Stoll – "AI in War: Red Cross Case"<br>
+    • H. Etyemezian <span class="company">UNHCR</span> – Refugee Protection<br>
+    • Panel discussion</td>
+  <td><strong>VC Lens on GenAI</strong> (15:30–15:55)<br>
+    • Y. Adan <span class="company">Ellipsis</span> – AI-Native VC<br>
+    • E. Treccani <span class="company">Founderful</span> – Pre-Seed in CH</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td>↑ AI Builders</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">16:00–17:00</td>
+  <td><strong>Sovereign GenAI</strong> (16:30–16:55)<br>
+    • M. Stampfli <span class="company">NVIDIA</span> – "No Sovereignty Without Open-Source"<br>
+    • A.E. Brunner – "The Big Swiss AI Secret"<br><br>
+    <strong>Panel: "Winning the Digital Sovereignty Race"</strong> (17:00–17:30)<br>
+    Podestà, Charra, Schneider, Brunner</td>
+  <td><strong>Entertainment</strong> (16:30–16:55)<br>
+    • Dr. J. Mišeikis <span class="company">Sony AI</span> – "Gran Turismo Sophy"</td>
+  <td><strong>Art in the Age of GenAI</strong> (16:00–16:55)<br>(co-hosted After The Algorithm)<br>
+    • 2girls1comp – "Dancing Plague"<br>
+    • M.F. Hendry – "Friendly Fire at the Shrink"<br>
+    • Panel: "Why Technology Needs Art?"</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td>↑ Finalists prep</td>
+</tr>
+
+<tr>
+  <td class="time">17:30–18:15</td>
+  <td><strong>Hackathon Finals &amp; Prize-Giving</strong></td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td>Finals on Main Stage</td>
+</tr>
+
+<tr>
+  <td class="time">18:15–18:20</td>
+  <td>Closing Remarks</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr class="break">
+  <td class="time">18:20–20:00</td>
+  <td colspan="7">🍷 Networking &amp; Bar</td>
+</tr>
+
+</tbody>
+</table>
+
+<p class="legend" style="margin-top:20px;">
+  Also available: <strong>Exhibition Space</strong> (1st floor, Blauer Saal) — 20 partner booths, open 09:30–17:00 both days &nbsp;|&nbsp;
+  <strong>Networking Area</strong> (Day 2, Weisser Saal) — 1:1 networking &amp; booths, 09:30–16:30
+</p>
+
+<script>
+const SESSION_DESC = {
+  "opening remarks": "Eric Anderegg, Co-Founder of GenAI Zürich & GenAI London, sets the stage for two days of applied generative AI in the historic Volkshaus Zürich. He outlines what to expect across multiple tracks, from enterprise use cases and deep tech talks to startup pitches, hands-on workshops, and the GenAI Zürich Award Ceremony.",
+  "switzerland hosting": "My talk will explain why Switzerland will host the next global AI Summit, what the summit aims to achieve, and how the GenAI community can contribute.",
+  "open ml ecosystem": "Building with open-source AI models has a lot of benefits: it ensures privacy, gives the application owner control and transparency over the model lifecycle, and cuts costs at scale. In this talk, I will go through the state of open AI, workflows, tooling, and more for building with open models.",
+  "apertus": "This presentation introduces Apertus, a fully transparent large language model initiative developed through collaboration between EPFL, ETH Zürich, and CSCS, representing a significant public-sector response to the concentration of AI development within private corporations. The initiative demonstrates how public research institutions can develop competitive language models while adhering to stringent ethical standards, including training exclusively on public data with copyright compliance and supporting over 1,000 languages.",
+  "winning ai use cases": "Which AI use cases should we focus on to get high probability of success and good ROI? We will discuss criteria that have proven decisive in successful AI use cases. We'll dive deeper on a single use case shaping up to be the 'killer app' of AI in 2026: AI for Software/Product Development Lifecycle (AI-DLC).",
+  "scaling ai agents": "As organisations move past the initial excitement of Generative AI, they face a sobering reality: while building a single AI agent is easy, scaling agentic systems to deliver true enterprise impact is remarkably difficult. Most organisations have moved fewer than 30% of their GenAI experiments into production. Discover how a secure LLM Mesh and robust AgentOps practices can help you cross the gap into full-scale enterprise AI transformation.",
+  "prototype to production": "As organizations evolve from digital to AI-native, data serves as the foundation for innovation. This session will explore how Cloudera can help your organization accelerate AI deployment to production, without compromising performance, accuracy, or security.",
+  "clawdie dies": "MCP adoption is accelerating, but many agent systems still misuse it. We explore code mode, where models generate small programs that call tools directly in a sandbox, dramatically reducing context overhead while improving multi-step accuracy. We introduce mcpc, an open-source universal CLI client for MCP. In a live demo, we'll orchestrate multiple MCP servers and turn interactions into reusable scripts.",
+  "interactive ai agents": "AI agents offer new possibilities for automating work in enterprises, but their adoption is often limited by constraints around security, governance, system integration, reliability, and operational complexity. This talk discusses common challenges, shares practical lessons from real deployments, and includes a demo of the Unit8 GPT Wizard.",
+  "ai value first": "AI rarely fails due to the algorithms, but because organization focuses on the technology instead of measurable outcomes. We share a value-first approach proven in the Swiss market that ensures measurable business impact rather than prototypes. Our method combines clear business goals, sector-specific insights, and pragmatic hands-on engineering.",
+  "scaling genai lufthansa": "While 95% of AI pilots fail, we present a case study from the 5% that succeed. Lufthansa Group's Digital Hangar successfully scaled SkAI—a production-grade GenAI Hub. Moving to enterprise readiness required solving governance, seamless integration, and adoption that drove 75% user uptake. 25% of users save 4–8 hours weekly on routine tasks.",
+  "shadow ai": "Following the rapid rise of autonomous AI agents in 2025, the enterprise security landscape is undergoing a critical transformation. Shadow AI—the unsanctioned use of AI tools by employees—creates a dangerous visibility gap. Effective defense requires automatic detection of unknown assets, cross-domain data correlation, and rigorous management of non-human identities.",
+  "predicting attacks": "Europe is no longer facing random cyber attacks. We are facing coordinated, state-sponsored operations now powered by AI. We demonstrate how AI can detect early indicators of ransomware and advanced threats by learning attack patterns and correlating telemetry, predicting attacks before impact.",
+  "architecture of trust": "A brilliant AI model is only as reliable as the data powering it. The biggest hurdles to GenAI aren't the algorithms — they are fragmented data, security risks, and hallucinations. Learn why bringing AI to your data — not the other way around — is the only way to build secure, scalable, and production-ready applications at speed.",
+  "future of ai discovery": "Generative AI has led to an explosion of content creation. Yet discovering relevant content online is becoming increasingly difficult. This talk introduces a shift from AI generation to real-time perception: AI systems that continuously interpret user behavior and context as they evolve within a session, moving beyond static personalization toward moment-by-moment intelligence.",
+  "what the 1980s got right": "Before LLMs, the 1980s had Decision Support Systems and Knowledge Engineering—both asking the right question from opposite directions. Both fell short because the technology wasn't ready. 40 years later, as organizations experience issues with raw AI, the lessons of the 1980s are coming back into focus. Reliable AI isn't about better prompts. It's about engineering knowledge.",
+  "redefining industrial reliability": "Reshape Systems SA, a CERN spin-off, addresses safety challenges with an AI-driven SaaS platform for comprehensive risk analysis. Leveraging generative and explainable AI, the platform automates hazard assessments and ensures full transparency for expert oversight, delivering up to 80% savings in manpower.",
+  "when ai and human created": "Imagine you're into playing instruments and producing music, but lacking decades of practice. As a personal project, I bridged that gap leveraging GenAI. The result is Windlereye, a fictional alternative rock band with over 100 songs. I'll share my hybrid workflow and the workarounds for vocal consistency, artifacts, and instability.",
+  "fulterer burkart": "Shows how Raiffeisen moves from GenAI pilots to real business impact with three value levers – DEPLOY, EMPOWER and REINVENT. We highlight how AI is embedded into everyday work, how a GenAI Empowerment Program upskills employees, and how complex processes can be redesigned end-to-end using agentic, rapid prototyping approaches.",
+  "beyond the pilot data strategy": "As foundation models commoditize, the real differentiator is how well you connect them to your own data and workflows. Avolta and D ONE share hard-won lessons from consolidating data in a Lakehouse-as-a-Service architecture, enabling employees with internal copilots, and building focused business agents on proprietary data.",
+  "reinventing industries genai": "The talk outlines how generative AI enables Credura's intelligent insurance advisor, showcasing Intelligent Document Understanding, AI-Generated Recommendation Narratives, and a client-centric approach. S-PRO touches on how software development is being impacted by Claude Code and other new GenAI tools.",
+  "trustworthy ai regulated": "We are drowning in AI demos that dazzle in the moment but fail in production. The biggest bottleneck for GenAI adoption in 2026 isn't intelligence or latency — it's trust. A real case of Oxagile's 20+ years of engineering experience converted into a trustworthy solution for a regulated Swiss organization.",
+  "award ceremony": "The GenAI Zürich Award Ceremony celebrates the most outstanding contributions in applied generative AI across Europe. Winners announced across five tracks – Rising Innovators, Impact Achievers, Enterprise Transformers, Community Spotlight, and AI's Choice. In a first for any European AI conference, the AI's Choice award is evaluated entirely by leading foundation models.",
+  "studyond": "Every year, millions of thesis projects are written across Europe — each one at the intersection of academic depth and real-world relevance. Yet almost none reaches industry. Studyond uses semantic matching and AI agents to translate business challenges into structured topics, serving clients including Swiss Post, CERN, PwC, and Nespresso.",
+  "balingo": "Balingo combines control, usability, and measurable quality in regulated multilingual language operations. Its term-first architecture detects mandatory terminology through exact matching, fuzzy matching, and grammatical variants before generation, then validates preservation post-generation.",
+  "ai productivity healthcare": "Healthcare professionals spend significant time on administrative work including documentation, coding, and handling fragmented data. The solution supports professionals before, during, and after consultations through pre-charting, documentation, and coding, reducing paperwork while increasing patient attention.",
+  "adaptive sovereign translator": "Businesses worldwide spend USD 31.7 bn on translation every year with uncertain data protection. Supertext's sovereign LLM-based translator integrates 3,000+ professional linguists, offering verification within 8 minutes and reducing translation spend by 64%.",
+  "provenance lab": "When hundreds of people contribute to a consultation and AI distills their input into conclusions, something invisible happens. Provenance Lab traces how ideas travel from contributors to AI outputs, surfacing distortions and false consensus through transparent evidence trails.",
+  "reinventing enterprise responsible": "PMI decided early that automation shouldn't simply expedite broken processes. The ambition centers on rebuilding business operations with AI fundamentally integrated—when enterprises transition from running AI projects to operating as genuinely AI-powered organizations.",
+  "scaling intelligence syngenta": "Syngenta built Austyn, processing 2.5 billion tokens daily, grounded in trusted enterprise data connected to SAP and Databricks. The platform features code interpretation, Microsoft 365 integration, and visual guidance tools utilizing energy-efficient AWS Graviton processors.",
+  "hidden cost": "Quality Assurance has ballooned into massive liability costing millions and stalling deployment at financial institutions. The session explores shifting from manual work to human-supervised AI agents delivering automation speed with expert oversight.",
+  "ai journey zkb": "ZKB's presentation outlines its Artificial Intelligence strategy development and implementation, focusing on technology, people, governance, and real-world applications, reflecting on lessons learned and next steps.",
+  "hyper personalization banking": "Citadele discovered three common challenges shaping banking's future: strengthening Business-IT collaboration, unlocking greater data availability, and choosing between slow solo innovation or faster collaborative progress. The presentation demonstrates AI-driven hyper-personalization's tangible business impact.",
+  "human ethics side": "Culture can break or make any strategy and resists change. The session addresses bringing organizational culture on the AI journey, identifying skills ensuring future success, and consequences of neglecting human and ethical elements.",
+  "future nervous system": "Something fundamental is changing. Organizations are evolving from passive transaction processors to proactive partners—and Agentic AI is the force driving that transformation. Intelligent systems replace rigid processes with natural communication and anticipatory needs recognition.",
+  "intelligence layer financial": "Financial institutions face a paradox: more data and tools yet stuck in pilot mode. Opus bridges this gap through enterprise AI orchestration, transforming prompts into end-to-end automated processes.",
+  "operating model matters": "Ninety-five percent of AI initiatives fail to deliver value at scale—not because companies picked the wrong model, but because they bolted new technology onto old ways of working. Success requires redesigning work itself rather than layering AI atop existing processes.",
+  "agentic claims": "Designing and delivering the first Agentic AI-native claims-handling platform across three companies and five countries. The talk addresses how Agentic AI changes process design, product architecture, governance, and orchestrating multiple specialized agents while ensuring safety and regulatory compliance.",
+  "ai concierge": "The AI Concierge simplifies agents' lives by analyzing third-party car insurance contracts and securities account statements, instantaneously creating counter offers or investment proposals.",
+  "context first ai systems": "The session explores context-first AI architectures where retrieval, memory, metadata, and workflow logic ground LLMs appropriately. Building blocks include context engineering, vector search, structured context injection, guardrails, and adaptive memory.",
+  "personal productivity reimagining work": "$285B was wiped from legal and finance tech almost overnight when foundation model companies started competing directly with their own customers. The presentation outlines AI adoption evolution from individual productivity through full agentic workflows, covering tech investments and avoiding LLM lock-in.",
+  "chatbots in minutes": "GenAI promises to transform how organizations work—but turning that promise into secure, scalable, real-world solutions is often harder than it seems. Migros created a flexible, enterprise-grade chatbot platform enabling teams to create assistants in minutes without compromising security or governance.",
+  "agentic ai ikea": "The session explains IKEA's application of Agentic AI within its 80-year-old supply chain organization, the challenges of historically grown supply chains, implementation approaches, and key learnings from the project.",
+  "agentic fashion": "When a customer asks 'What should I wear to an 80s themed party?' they navigate a complex intersection of cultural context, personal aesthetic, and functional requirements. Zalando leverages generative AI to bridge unstructured queries with structured catalog logic, translating subjective moments into precise recommendations.",
+  "illusion of intent": "Anthropomorphic language—assigning human verbs to probabilistic systems—creates an Illusion of Intent representing governance hazards. Precise, de-anthropomorphized language acts as a firewall for ethical safety and improves collaboration between Legal, Tech, and Product teams.",
+  "conscious humans lead": "Many organizations accelerate GenAI initiatives yet struggle moving beyond pilots safely. The core problem isn't technology but human judgment quality, ethical awareness, and decision structures. Safe scaling begins with humans understanding implications and recognizing blind spots.",
+  "ai infrastructure you control": "Relying on black-box AI APIs often means trading data sovereignty and cost control for convenience. This session provides a practical blueprint for architecting a private, sovereign Model-as-a-Service platform using powerful open-source models.",
+  "sovereign ai stack": "A US president had Microsoft block European accounts without warning in April 2025. 92% of European enterprise AI still runs on US infrastructure. True 'architectural sovereignty' means your hardware, your building, your data, your AI never leaving your infrastructure. Live open-source launch achieving 83% median cost reduction versus cloud equivalents.",
+  "talking to your data": "Anyone in your organization could ask a complex business question in plain language and get a governed, interpreted answer in seconds. Building open-source MCP servers that connect to enterprise data, transform natural language into SQL, execute queries, and generate dashboards, entirely in the open.",
+  "constraining ai until it works": "Agents say 'done' when the code is broken. Engineers spend more time debugging AI output than shipping. Proposes combining opinionated execution, reactive computation, and sound static analysis to restore deterministic confidence to AI-generated code.",
+  "business superintelligence": "Superintelligence as sophisticated orchestration of autonomous, collaborating AI agents. Business Superintelligence: a practical reality where an ecosystem of agents understands a company's strategy, data, and services as intimately as a human coworker. Shares architectural choices and hard-won lessons from retail deployments.",
+  "building the trust stack": "System design issues and inter-agent misalignment account for over 76% of all failures in multi-agent systems. Presents a four-layer 'trust stack' addressing agent discovery, zero-trust federation, verifiable semantics, and secure workspace delegation.",
+  "llms fail on excel": "Examines how LLMs handle complex financial spreadsheets with challenges like merged headers, fund-level dividers, sparse layouts, cross-table references, and multi-step calculations. Accuracy declines sharply as spreadsheet complexity increases. Dependable Excel extraction requires hybrid systems combining robust parsing, schema-aware retrieval, and deterministic computation.",
+  "migrating complex systems": "Over 10,000 SAP BW systems face end-of-support by 2030. Multi-agent systems reverse-engineer legacy platforms, construct knowledge graphs of thousands of interdependent objects, and autonomously generate complete modernized systems. A three-phase framework—Reverse, Rethink, Rebuild—compressing years of work into months.",
+  "end of tool hopping": "Teams still jump between tools, duplicate work, and struggle to trust their data. Agent-driven architectures like MCP enable unified experience across enterprise systems.",
+  "geneva 2027 ai summit": "Invite-only roundtable focusing on Switzerland's approach to the Geneva AI Summit 2027. Discussion threads include identifying Swiss strengths, mapping urgent international stakeholder needs, and developing concrete tools as Swiss contributions.",
+  "bitter lesson search": "Rich Sutton's 'bitter lesson': general methods leveraging computation always win over clever hand-designed systems. RAG is a patchwork of human-engineered heuristics. SID's agentic search model, trained end-to-end with reinforcement learning, replaces the entire RAG stack with a single model that reasons, retrieves, and iterates autonomously.",
+  "5% club": "95% of AI pilots never reach production. This hands-on workshop puts you inside the escape. Teams work through real-world scenarios mirroring where most AI initiatives stall: the successful demo that never gets an owner, the pilot with great metrics but no adoption. At any point, teams can play a Joker Card for straight advice.",
+  "systems of action": "Enterprises have long relied on systems of record optimized for capturing 'what happened'. These human-centric architectures create barriers for agentic AI. This session explores the shift to systems of action, where an intelligence layer augments existing systems with agent-generated insights for faster, smarter decisions.",
+  "zero to agentic": "Using Cloudera AI Agent Studio, we demonstrate how to build and deploy a fully functional AI agent in just 10 minutes. Connect agents to enterprise data, define multi-step reasoning workflows, and integrate with existing data services—all while maintaining security and governance.",
+  "beyond conversational ai": "Generative AI is only as valuable as the structure behind it. In this workshop, we dive into the visual tools within Dataiku to build Autonomous Agents—AI workers designed to follow complex business rules, safely access enterprise data via the LLM Mesh, and execute multi-step tasks.",
+  "fixing cold start": "Most recommender systems perform until they encounter something new. Cold start is often treated as a data sparsity issue, but in practice it is a representation problem. We cover approaches from basic content features to dense representations and semantic identifiers, and show how Albatross incorporates richer item representations.",
+  "apex workshop": "Maximize your learning with this hands-on workshop for executives, product managers, and founders. In a condensed 50-minute sprint, your team will build a minimal working prototype with Claude Code. No prior coding or AI expertise needed!",
+  "ai without the effort": "What if you could bridge the gap between a business idea and a working AI application in minutes? See how Snowflake Cortex acts as your 'AI Co-pilot,' allowing you to go from a simple question to a functional workspace using just natural language. The 'Zero-to-Hero' Workflow: a single prompt generates a full analysis notebook.",
+  "reliable agents for analytics": "Dive deep into the world of Agentic Analytics with Veezoo. Participants will get an exclusive look at Veezoo in action with a live demo, experiencing firsthand how to model the semantics and knowledge of your business and get trusted answers from data.",
+  "feed your ai agents": "AI agents are only as useful as the data and tools they can access. Learn how to give your AI agents superpowers by connecting them to real-world web data using MCP and Apify's Agent Skills. You'll connect an AI agent to Apify's MCP server and write your own custom skill. Bring your laptop with an AI coding tool installed.",
+  "agentic ai in action": "Participants experience how a real business process can be fully automated within one hour using agentic AI. The audience selects a process to be built live—e.g., a loan approval workflow in banking or a source-to-contract process in procurement. Designed and implemented end-to-end in real time.",
+  "ai coding assistants transform": "AI coding assistants are rapidly becoming part of modern software engineering, but their real impact varies dramatically. We'll break down the most effective use cases, common pitfalls, and the engineering practices that matter most when adopting AI at scale—from documentation standards to modular architecture to collaborative review workflows.",
+  "voice first ux": "Fifty minutes. Empty scaffold to live URL. An AI that speaks, listens, and thinks—built from scratch in front of you. We live-code a voice survey app: real-time audio over WebRTC, a conversational AI interviewer, and structured insights generated the moment the last question is answered.",
+  "genai in banking": "An invite-only roundtable for senior leaders from banks and financial institutions. Discuss real deployment experiences, regulatory constraints, data governance challenges, and strategies for scaling from pilots to enterprise-wide adoption—all under Chatham House rules.",
+  "genai in insurance": "An invite-only roundtable for insurance executives and innovation leaders exploring how GenAI transforms underwriting, claims processing, fraud detection, and customer engagement. Share what's working, what isn't, and how to build the business case for scaling.",
+  "genai in retail": "An invite-only roundtable for retail and e-commerce leaders. From personalised recommendations and AI-generated content to demand forecasting and supply chain optimisation. Discuss ROI measurement and balance automation with brand authenticity.",
+  "intelligence bomb": "Not a single day goes by without a new record investment in AI. The unit of measurement is no longer billions, but trillions. Mastering AI is the most significant quantum leap since the atomic bomb. Does the future belong to American and Chinese tech giants? There is an alternative. Sovereign, collaborative, efficient and ethical. Submitting is not an option.",
+  "robot renaissance": "Humanity stands at a turning point: machines and GenAI will soon outperform us in many routine and complex tasks. Kaufmann reframes robots as tools and insists we design them to augment humans. He sketches a future where every person works with several humanoid or software agents. Switzerland can lead by building reliable, privacy-preserving GenAI systems.",
+  "reachy mini": "Large language models can reason and hold conversations. But they remain trapped behind screens. Reachy Mini is an open and developer-friendly robot designed to explore embodied AI. Speech-to-speech pipelines, local inference, and modular backends allow Reachy Mini to move beyond scripted demos and into responsive, real-world interaction.",
+  "demystifying humanoid robots": "Humanoid robots and Physical AI seem to be coming into our lives any moment. At the same time, adoption beyond pilot projects is scarce. How ready are humanoids to enter our homes and industry? We'll look into how we teach AI models to control robot bodies and identify how to extract the most value of Physical AI today.",
+  "google deepmind ai stack": "The landscape of generative AI is evolving rapidly. We will explore the latest advancements in the Gemini family of models, focusing on image generation and agentic features. Whether you're looking to integrate open models like Gemma or leverage enterprise-grade APIs, you'll leave with a clear understanding.",
+  "beyond genai scaling global": "Seamless communication is the key to unlocking global markets. Companies face a crucial dilemma: general GenAI solutions produce generic text that dilutes brand nuance and mistranslates terminology. We'll explore how purpose-built language models generate context-aware translations. DeepL's approach: from text APIs to real-time voice translation.",
+  "when ai runs the campaign": "Generative AI is transforming marketing, but in most organizations it's disconnected tools. Groupe Mutuel and elaboratum share a fully agentic marketing campaign workflow: a system of specialized AI agents collaborating across the entire campaign lifecycle. The system generated assets across seven languages and multiple channels using simulated customer personas.",
+  "designing ai with humans": "Why do we trust a brand? Not because of the technology it uses, but because it consistently delivers on its promise. The real transformation happens when companies reshape workflows with AI and agent systems. But with greater autonomy comes a key question: where must humans stay in the loop? Practical design patterns for human-AI collaboration.",
+  "computer use autonomous": "Generative AI has changed how we interact with computers through language. The next step is AI that can use computers to complete real tasks. H Company's CPO shares the shift: from AI assistants to systems that can understand interfaces, navigate software, and execute real tasks. Concrete examples of AI automating workflows.",
+  "10m bug": "Every enterprise AI coding workflow has the same hidden flaw—when something goes wrong, nobody can explain what happened. DOTBOT, an open-source autonomous coding framework, brings genuine engineering discipline: every decision is captured in version-controlled audit logs. Planning is separated from execution. Ambiguity is escalated to humans before a line of code is written.",
+  "ethics of genai": "GenAI creates ethical opportunities and ethical risks. Concrete solutions include human rights-based data-based systems (HRBDS) and an International Data-Based Systems Agency (IDA) at the UN. Both proposals enjoy support from UN Secretary General Guterres, the Dalai Lama, Pope Francis, and Sam Altman.",
+  "search apis": "AI agents need to access the live web—but traditional search wasn't built for them. Microsoft retired Bing Search APIs; Google offers search exclusively through Gemini. For developers building on open or multi-model architectures, neither is an option. Exa is building its own neural search index from scratch rather than wrapping legacy engines.",
+  "no sovereignty without opensource": "True AI sovereignty requires open foundations. Closed, foreign-controlled models create dependency—open models deliver transparency, local control, and data sovereignty. Open-source AI isn't a philosophical preference but a strategic imperative. Showcases NVIDIA's Nemotron 3 model as a concrete example.",
+  "big swiss ai secret": "From generative AI transforming software development to advanced AI systems powering industry, defense, and public services, the mission for Europe is clear: AI sovereignty is no longer a political slogan, it is an economic, technological, and security imperative.",
+  "from gpt to agent orchestration": "Many organizations experiment with AI through chatbots but struggle to scale impact. This session shows how ZF's Innovation Lab moves from ad-hoc AI to orchestrated agent-based systems. Participants learn the maturity path from simple GPT usage to agent orchestration and AI-native innovation.",
+  "ai to design in cad": "What happens when an AI learns to design? Raven, an AI-driven CAD tool, revealed unexpected possibilities and limitations. See how Raven accelerates exploration, elevates decision-making, and reshapes the early stages of architectural work. Imagine a future where designers and AI collaborate to unlock ideas once out of reach.",
+  "ai adoption manufacturing": "Integrating AI into established manufacturing processes without disrupting workflows at SFS Group.",
+  "stop prompting start engineering": "93% of developers say AI makes them more productive. Yet 91% of organizations report no impact on the top line. That gap isn't a model problem—it's a systems problem. Four techniques: Specs, Steering, Skills, and SOPs. Teams getting the most from AI are engineering the system around the model—not just the prompts.",
+  "most predictable error": "In legal AI, impressive demos are easy to produce—reliable systems are not. High-stakes AI requires a gold standard: structured data, annotated samples, and systematic benchmarking against human experts. With agentic AI, many control steps can be accelerated, but transparency about output quality remains: precision and error rates must be measurable.",
+  "legal challenges agentic": "Agentic AI systems are moving beyond passive tools. They can make decisions, initiate actions, and negotiate with limited human intervention. This raises fundamental legal questions about liability, contract formation, and data protection. The session identifies key points where legal exposure typically arises and provides concrete governance guidance.",
+  "demo to data room": "Investors are signing responsible AI commitments flowing downstream into term sheets, board expectations, and the data room. The question is no longer whether you care about responsible AI—it's whether your organisation is structurally built to evidence it. Outlines a minimum viable responsible AI governance architecture.",
+  "gen ai in the news": "Generative AI is beginning to reshape how news is created, translated, verified, and delivered. Reuters approaches GenAI as both a technological enabler and a responsibility-critical capability. The talk highlights key design choices: where GenAI delivers clear value, where it must be constrained, and how human editorial judgment remains central.",
+  "ai against hate speech": "Hate speech spreads unabated across social media platforms, often overwhelming voluntary counter-speech. This presentation addresses these challenges with a methodologically sound approach supplemented by AI—not to automate the conversation, but to assist in formulating precise, empathetic, and effective responses.",
+  "sonova genai journey": "At Sonova, we are adopting GenAI in Hearing Aid R&D workflows, starting with grassroots initiatives in software development and expanding into broader use cases. Introducing GenAI in medical-device R&D requires careful consideration of security, quality, safety, and intellectual property.",
+  "driving ai value sme": "For SMEs, the reality isn't about infinite R&D budgets—it's about limited resources, short ROI expectations, and a 'fully booked' workforce. How do you move from 'doing the right thing' to 'doing things right'? Strategies to push participation across departments, secure internal budgets, and track adoption with limited manpower.",
+  "inclusive teams slaying bias": "Biased GenAI products stifle innovation, from flawed data to homogenous teams missing real-world blind spots. How do you build diverse teams that catch biases early and deliver superior products? Diverse teams are your edge in GenAI success.",
+  "data chaos cognitive enterprise": "In a world of fragmented data, true intelligence doesn't come from bigger models, but from smarter, domain-aware ones. Domain-optimized Small Language Models harmonize data, processes, and decisions across complex architectures. Learn how SLMs evolve into intelligent agents that strengthen architecture and drive coherence at scale.",
+  "zurich airport responsible ai": "Zurich Airport is exploring how AI-driven and autonomous solutions can be introduced responsibly in a highly regulated environment. The session focuses on practical progress: strengthening digital foundations, clarifying governance, and ensuring compliance, safety, and transparency. A realistic perspective on moving from isolated experiments to structured AI.",
+  "evidence based hiring": "Traditional executive search remains largely relationship-driven and under-digitised. Tagliabue & Partners and thirty3 built a platform that automates batch CV screening and generates client-ready longlist decks with structured, evidence-based candidate evaluations—demonstrating how GenAI can transform high-stakes talent decisions.",
+  "scalable ai adoption": "You've invested. The tools are deployed. But only 15% of your employees actually use AI productively. 74% of companies see zero ROI—not because the technology fails, but because they're ignoring the critical 70%: people and processes. See how partners went from 15% to 85% adoption in under 6 months.",
+  "from principles to practice": "Ethics frameworks for AI are everywhere—but they rarely help people make decisions. We're building a platform that translates complex questions into structured, searchable guidance at the point of decision-making. Responsible innovation needs operational tools, not just better intentions.",
+  "ai responsibly in war": "Move fast and break things. At the ICRC, breaking things means putting the lives of the most vulnerable at high risk. Learn how this 160-year-old humanitarian organisation developed its AI policy, embedding principles of humanity, impartiality, neutrality and independence while fostering accountable, responsible innovation.",
+  "ai for refugee protection": "Global displacement is rising, placing unprecedented pressure on humanitarian systems. UNHCR Innovation is operationalizing AI across four strategic pillars: protection and service delivery, humanitarian decision making, organizational efficiency, and oversight and planning. Grounded in responsible governance and human rights safeguards.",
+  "gran turismo sophy": "Mastering Gran Turismo requires more than following a racing line. An autonomous agent must simultaneously master complex real-time car physics, execute high-speed tactical decisions, and adhere to strict racing etiquette. Using deep reinforcement learning, GT Sophy learned to control cars at the absolute limits of physical friction while racing fairly. Featured in Nature magazine, now enjoyed by millions of players.",
+  "document intelligence": "Every organisation produces documents it cannot afford to get wrong. Thesify is a Swiss-made document intelligence platform where every AI contribution is visible, attributed, and reversible. Authors stay in control, organisations can audit every edit, and AI becomes a transparent collaborator rather than an opaque shortcut.",
+  "pilots to production swisper": "Enterprises are piloting AI chatbots, but most projects stall at FAQ and RAG. An agentic execution layer that turns your APIs and workflows into domain agents, adds persistent memory, and provides observability, replay, and regression testing so teams can ship changes with control.",
+  "saas sprawl to savings": "Software spend is large, but the data is fragmented across contracts, finance, IT, and usage systems. GenAI becomes a decision layer on top of existing tools—turning data into savings opportunities, renewal briefings, and governance actions. Use cases: duplicate SaaS detection, license right-sizing, shadow IT triage.",
+  "pdf chaos to erp": "Every manufacturing company has that person copying data from PDFs into the ERP. At one Swiss CNC shop, that was the CEO—20 hours a week. An AI-powered extraction engine with 90% automation rates, payback within months, and iterative learning. Honest field report on where LLMs excel and where they quietly hallucinate in manufacturing.",
+  "agentic customer engagement": "Customer engagement in pharma is moving toward an agentic future where systems actively guide what to do next. A Customer 360 copilot that continuously analyzes behavior, preferences, and interactions. Rather than starting with chat, users see clear priorities and recommended actions upfront.",
+  "risk free genai smes": "Generative AI promises enormous productivity gains—yet for SMEs, barriers remain. A pay-per-use approach that makes innovation predictable, scalable, and risk-free. Three real-world examples in manufacturing, finance, and Voice AI receptionist. We take care of the implementation free of charge, free of risk.",
+  "testing llm outputs": "Building LLM-based apps is all fun and games until they start growing. Every little change can cause a butterfly effect. Our journey from a small app to a complex, skills-based system where we eventually turned to Promptfoo. A system that catches regressions and evaluates solution quality and maintainability.",
+  "ai at the edge": "Recent advances are enabling AI applications running directly on devices like robots, cameras, and industrial systems. The talk explores when edge AI becomes necessary, including lightweight language models and specialized hardware. Focus on performing vector search and semantic memory locally on edge devices.",
+  "full stack sovereignty": "Europe is making unprecedented investments in AI sovereignty—but most strategies stop at infrastructure. True sovereignty is a stack: from data center through model training to application orchestration. A gap at any layer means someone else holds the keys. Real-world architecture patterns for regulated enterprises.",
+  "why specialized models": "Every frontier model follows the same lifecycle: dazzle in demos, get adopted for PoCs, then teams realize they need something smaller and purpose-built. The economics of the frontier-to-specialist pipeline: when to fine-tune, when distillation works, and why production AI is heading toward diverse model ecosystems.",
+  "edge ai revolution": "As AI adoption accelerates, many solutions still depend on cloud-based processing—introducing latency, bandwidth constraints, and data privacy challenges. Edge AI brings intelligence directly to embedded systems. Concrete examples from instant quality control on production lines to autonomous operation in remote environments.",
+  "data sovereignty foundation": "Enterprise GenAI can only deliver sustainable value built on data sovereignty, security, and control. Adoption doesn't fail because of missing technology, but due to fragmented data, regulatory constraints, and lack of trust. Data sovereignty is the essential enabler for scalable, responsible, enterprise-ready GenAI.",
+  "decentralized ai": "AI agents are becoming integral to enterprise workflows, but today's systems operate in silos—they can't verify each other's identity or negotiate payments. Masumi provides decentralized infrastructure: on-chain identity, trustless agent-to-agent payments via escrow smart contracts, and a public registry for discovery and reputation scoring.",
+  "from data to wisdom": "The future of decision-making will be won by organizations that pair human judgment with AI at scale. We unpack how data becomes wisdom through four layers, giving participants a practical mental model for designing robust Human-AI decision systems that are reliable, auditable, and safe for the boardroom.",
+  "how ai agents negotiate": "How do AI agents resolve conflicts when there is no 'right' answer? Insights from nearly 500 automated negotiation experiments with Claude, GPT, and Gemini. Over 85% reached agreement—in virtually all successful cases by adopting structured governance mechanisms. Governance design shapes behavior more than model intelligence alone.",
+  "service offerings cscs": "Innovative start-ups and SMEs use a lot of computing resources, often at very high prices from foreign cloud providers. The Swiss National Supercomputing Center offers compelling alternatives, serving not only the academic ecosystem but also its extended mandate of serving broader society.",
+  "cognitive debt and ai": "GenAI is delivering measurable gains: ChatGPT cut task time by about 40% while improving quality by 18%. But not everyone. And speed is not the whole story. Recent studies suggest GenAI can also weaken quality control, creating cognitive debt that accumulates invisibly until a crisis exposes it.",
+  "can you see the algorithm": "AI increasingly shapes everyday life, yet its infrastructures often remain invisible. Drawing on the exhibition 'Can You See Me Now?' by WE ARE AIA, artistic practices reveal systems of data tracking, algorithmic governance, and digital surveillance, making complex technologies tangible through experiential learning.",
+  "ai-native vc": "VCs evaluate AI startups. But what if the VC itself runs on AI? At Ellipsis Venture, we've built agentic systems for deal flow, diligence, and fund ops—turning a two-partner fund into something that operates like a much larger team. Part demo, part manifesto.",
+  "pre-seed in ch": "For founders, this lecture offers a concrete, honest picture of pre-seed fundraising in Switzerland—less about decks and metrics, more about people and perception. Understanding what investors are actually betting on at this stage.",
+  "dancing plague": "2girls1comp is a modding duo whose work changes the logic of video games as an act of creative counter-play, revealing the social and economic fabric in which they are immersed: from reclaiming global digital infrastructures to commenting on free labor within capitalist ideologies of the gaming industry.",
+  "friendly fire shrink": "An AI psychiatrist for neurophysiological impact research. Manuel Flurin Hendry investigates the pressures of digital systems on self-perception, visual education, labor relations and artistic practice. His book 'The Feeling Machine' will be published by De Gruyter in 2026.",
+  "why technology needs art": "Generative AI is transforming every sector, but most conversations occur in isolation. The 'After the Algorithm' festival breaks that pattern by bringing artists and scientists into direct contact with general audiences. When technology moves this fast, we need more critical and creative thinking, ethical questioning—all playful, experiential and speculative.",
+  "harnessing silicon personas": "Engineering creates robust simulation systems combining real-world data with behavioral instructions to replicate individual decision-making patterns. Leverages synthetic outputs to simplify traditional research, reduce biases, and minimize AI hallucinations. Integrating high-fidelity outputs into marketing automation to drive measurable Customer Lifetime Value growth.",
+  "building ai that works": "Most organizations scaling AI encounter breakdowns despite strong models and successful pilots. This interactive session immerses participants in simulated AI transformation scenarios with real constraints—data limitations, cost pressure, user behavior, governance requirements. Discover why 'working' systems often fail in reality.",
+  "designing llm agents": "This engineering-focused workshop explores LLM agent system design: how GenAI applications evolve from single-prompt interactions into structured agent-based architectures. Covers reasoning patterns, tool integration, memory, planning, and orchestration. Hands-on exploration of LangGraph and CrewAI.",
+  "zero to production ready agents": "Build a production-ready Customer Support Agent with Amazon Bedrock AgentCore. Seven progressive labs: creating agent prototypes, implementing persistent memory, connecting to real data through AgentCore Gateway, deploying with observability, and building customer-facing applications. Real-world e-commerce scenarios.",
+  "governance & ethics": "An invite-only roundtable for policy, legal, and compliance leaders. As regulation evolves—from the EU AI Act to Swiss-specific approaches—organisations must balance innovation with accountability, transparency, and fairness. Discuss practical governance models, risk assessment, and embedding ethical principles without stifling progress.",
+  "pharma & healthcare": "An invite-only roundtable for leaders in pharmaceuticals, biotech, and healthcare. The stakes are uniquely high—regulatory approval, patient safety, and data privacy demand rigorous validation. Discuss real-world applications, the path from research to clinical deployment, and navigating the regulatory landscape.",
+  "ai builders": "Code is cheap now. Software isn't. Apps are becoming agents. Products designed for agents, not humans. Agents with wallets. Pricing when agent labor replaces the seat. Defensibility when code is commoditized. This is only for founders and coders building real AI products. One hour. No slides. Just insights."
+};
+
+(function() {
+  const STORAGE_KEY = 'gaz26_attending';
+
+  // Assign stable IDs to all selectable cells
+  function init() {
+    const tables = document.querySelectorAll('table');
+    tables.forEach((table, ti) => {
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach((row, ri) => {
+        const cells = row.querySelectorAll('td');
+        cells.forEach((cell, ci) => {
+          // Skip time column, empty cells, break rows, and continuation cells
+          if (ci === 0) return;
+          if (cell.classList.contains('empty')) return;
+          if (row.classList.contains('break')) return;
+          const text = cell.textContent.trim();
+          if (text === '–' || text === '' || text === '↑') return;
+
+          cell.classList.add('selectable');
+          cell.dataset.id = `t${ti}_r${ri}_c${ci}`;
+          cell.addEventListener('click', (e) => { e.stopPropagation(); toggle(cell); });
+          cell.addEventListener('mouseenter', (e) => { cell.classList.add('expanded'); showTooltip(cell, e); });
+          cell.addEventListener('mousemove', (e) => moveTooltip(e));
+          cell.addEventListener('mouseleave', () => { cell.classList.remove('expanded'); hideTooltip(); });
+        });
+      });
+    });
+
+    // Restore saved state
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    document.querySelectorAll('td.selectable').forEach(cell => {
+      if (saved[cell.dataset.id]) {
+        cell.classList.add('attending');
+      }
+    });
+    updateCount();
+  }
+
+  function toggle(cell) {
+    cell.classList.toggle('attending');
+    save();
+    updateCount();
+  }
+
+  function save() {
+    const state = {};
+    document.querySelectorAll('td.attending').forEach(cell => {
+      state[cell.dataset.id] = true;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateCount() {
+    const n = document.querySelectorAll('td.attending').length;
+    document.getElementById('count').textContent = n + ' selected';
+  }
+
+  // Build plain-text schedule from selections
+  function buildScheduleText() {
+    const lines = ['GenAI Zürich 2026 – My Schedule', '='.repeat(40), ''];
+    const tables = document.querySelectorAll('table');
+    const dayLabels = document.querySelectorAll('h2');
+
+    tables.forEach((table, ti) => {
+      // Get header columns
+      const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent.trim());
+      const dayLabel = dayLabels[ti] ? dayLabels[ti].textContent.trim() : `Day ${ti + 1}`;
+      let dayHasSelections = false;
+      const dayLines = [];
+
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const attending = row.querySelectorAll('td.attending');
+        if (attending.length === 0) return;
+
+        // Get time from first cell
+        const time = cells[0] ? cells[0].textContent.trim() : '';
+        attending.forEach(cell => {
+          const ci = Array.from(cells).indexOf(cell);
+          const stage = headers[ci] || '';
+          // Get clean text content
+          let content = cell.textContent.trim();
+          // Remove the checkmark prefix we add via CSS (it's in ::before so not in textContent)
+          dayHasSelections = true;
+          dayLines.push(`${time} | ${stage}`);
+          // Indent the content
+          content.split('\n').filter(l => l.trim()).forEach(l => {
+            dayLines.push(`  ${l.trim()}`);
+          });
+          dayLines.push('');
+        });
+      });
+
+      if (dayHasSelections) {
+        lines.push(dayLabel);
+        lines.push('-'.repeat(dayLabel.length));
+        lines.push(...dayLines);
+      }
+    });
+
+    if (lines.length <= 3) {
+      return 'No sessions selected yet.';
+    }
+    return lines.join('\n');
+  }
+
+  // Export as downloadable .txt
+  window.exportText = function() {
+    const text = buildScheduleText();
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'gaz26_my_schedule.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Export via mailto
+  window.exportEmail = function() {
+    const text = buildScheduleText();
+    const subject = encodeURIComponent('My GenAI Zürich 2026 Schedule');
+    const body = encodeURIComponent(text);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+
+  // Clear all selections
+  window.clearAll = function() {
+    if (!confirm('Remove all selections?')) return;
+    document.querySelectorAll('td.attending').forEach(cell => {
+      cell.classList.remove('attending');
+    });
+    save();
+    updateCount();
+    document.getElementById('filterToggle').checked = false;
+    toggleFilter();
+  };
+
+  // Filter to show only selected — dim non-attending cells in rows that have a selection
+  window.toggleFilter = function() {
+    const on = document.getElementById('filterToggle').checked;
+    document.querySelectorAll('table tbody tr').forEach(row => {
+      if (row.classList.contains('break')) {
+        if (on) {
+          row.classList.add('filtered-break');
+        } else {
+          row.classList.remove('filtered-break');
+        }
+        return;
+      }
+      const cells = row.querySelectorAll('td');
+      const hasAttending = row.querySelector('td.attending');
+      if (on) {
+        // Hide entire rows with no selections
+        if (!hasAttending) {
+          row.style.display = 'none';
+        } else {
+          row.style.display = '';
+          // Dim non-attending cells in rows that have a selection
+          cells.forEach(cell => {
+            if (!cell.classList.contains('attending') && !cell.classList.contains('time')) {
+              cell.classList.add('dimmed');
+            } else {
+              cell.classList.remove('dimmed');
+            }
+          });
+        }
+      } else {
+        row.style.display = '';
+        cells.forEach(cell => cell.classList.remove('dimmed'));
+      }
+    });
+  };
+
+  const tooltip = document.getElementById('tooltip');
+  const ttTitle = document.getElementById('ttTitle');
+  const ttBody = document.getElementById('ttBody');
+
+  function findDescription(cellText) {
+    const text = cellText.toLowerCase();
+    let bestMatch = null;
+    let bestLen = 0;
+    for (const key of Object.keys(SESSION_DESC)) {
+      // Check if all words in the key appear in the cell text
+      const words = key.split(/\s+/);
+      const allMatch = words.every(w => text.includes(w));
+      if (allMatch && key.length > bestLen) {
+        bestLen = key.length;
+        bestMatch = key;
+      }
+    }
+    return bestMatch ? SESSION_DESC[bestMatch] : null;
+  }
+
+  function showTooltip(cell, e) {
+    const cellText = cell.textContent;
+    const desc = findDescription(cellText);
+    if (!desc) { tooltip.classList.remove('visible'); return; }
+    // Extract first bold text as title
+    const strong = cell.querySelector('strong');
+    ttTitle.textContent = strong ? strong.textContent : '';
+    ttBody.textContent = desc;
+    tooltip.classList.add('visible');
+    moveTooltip(e);
+  }
+
+  function moveTooltip(e) {
+    const pad = 15;
+    let x = e.clientX + pad;
+    let y = e.clientY + pad;
+    const tw = tooltip.offsetWidth;
+    const th = tooltip.offsetHeight;
+    if (x + tw > window.innerWidth - 10) x = e.clientX - tw - pad;
+    if (y + th > window.innerHeight - 10) y = e.clientY - th - pad;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+
+  function hideTooltip() {
+    tooltip.classList.remove('visible');
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
