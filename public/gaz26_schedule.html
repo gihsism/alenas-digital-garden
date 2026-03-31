@@ -1068,72 +1068,33 @@ const SESSION_DESC = {
     return events;
   }
 
-  // ICS line folding: max 75 octets per line (RFC 5545)
-  function foldLine(line) {
-    if (line.length <= 75) return line;
-    let result = line.substring(0, 75);
-    let pos = 75;
-    while (pos < line.length) {
-      result += '\r\n ' + line.substring(pos, pos + 74);
-      pos += 74;
-    }
-    return result;
-  }
-
-  // Escape text for ICS property values
-  function icsEscape(text) {
-    return text.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
-  }
-
   // Export as .ics (works with Outlook, Apple Calendar, etc.)
   window.exportICS = function() {
     const events = getAttendingEvents();
     if (events.length === 0) { alert('No sessions selected yet.'); return; }
 
-    const lines = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//GenAI Zurich 2026//Schedule//EN',
-      'CALSCALE:GREGORIAN',
-      'METHOD:PUBLISH',
-      'X-WR-CALNAME:GenAI Zurich 2026',
-      'X-WR-TIMEZONE:Europe/Zurich',
-      'BEGIN:VTIMEZONE',
-      'TZID:Europe/Zurich',
-      'BEGIN:STANDARD',
-      'DTSTART:19701025T030000',
-      'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU',
-      'TZOFFSETFROM:+0200',
-      'TZOFFSETTO:+0100',
-      'TZNAME:CET',
-      'END:STANDARD',
-      'BEGIN:DAYLIGHT',
-      'DTSTART:19700329T020000',
-      'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU',
-      'TZOFFSETFROM:+0100',
-      'TZOFFSETTO:+0200',
-      'TZNAME:CEST',
-      'END:DAYLIGHT',
-      'END:VTIMEZONE'
-    ];
+    // Build ICS as a single string — no line folding (all modern parsers handle long lines)
+    let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//GenAI Zurich 2026//Schedule//EN\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\nX-WR-CALNAME:GenAI Zurich 2026\r\nX-WR-TIMEZONE:Europe/Zurich\r\n';
 
     events.forEach((ev, i) => {
-      const uid = 'gaz26-' + ev.dtStart + '-' + i + '@genaizurich.ch';
-      const descText = ev.desc ? ev.desc + '\\n\\nStage: ' + ev.stage : 'Stage: ' + ev.stage;
-      lines.push('BEGIN:VEVENT');
-      lines.push('UID:' + uid);
-      lines.push('DTSTART;TZID=Europe/Zurich:' + ev.dtStart);
-      lines.push('DTEND;TZID=Europe/Zurich:' + ev.dtEnd);
-      lines.push(foldLine('SUMMARY:' + icsEscape(ev.title)));
-      lines.push(foldLine('DESCRIPTION:' + icsEscape(descText)));
-      lines.push(foldLine('LOCATION:' + icsEscape('Kongresshaus Zurich - ' + ev.stage)));
-      lines.push('STATUS:CONFIRMED');
-      lines.push('END:VEVENT');
+      // Clean text: remove commas/semicolons/backslashes that break ICS, replace newlines
+      const cleanTitle = ev.title.replace(/[\\;,]/g, ' ');
+      const cleanDesc = ev.desc ? (ev.desc + ' | Stage: ' + ev.stage).replace(/[\\;,]/g, ' ') : 'Stage: ' + ev.stage;
+      const cleanLoc = ('Kongresshaus Zurich - ' + ev.stage).replace(/[\\;,]/g, ' ');
+
+      ics += 'BEGIN:VEVENT\r\n';
+      ics += 'UID:gaz26-' + i + '-' + ev.dtStart + '@genaizurich.ch\r\n';
+      ics += 'DTSTART;TZID=Europe/Zurich:' + ev.dtStart + '\r\n';
+      ics += 'DTEND;TZID=Europe/Zurich:' + ev.dtEnd + '\r\n';
+      ics += 'SUMMARY:' + cleanTitle + '\r\n';
+      ics += 'DESCRIPTION:' + cleanDesc + '\r\n';
+      ics += 'LOCATION:' + cleanLoc + '\r\n';
+      ics += 'END:VEVENT\r\n';
     });
 
-    lines.push('END:VCALENDAR');
+    ics += 'END:VCALENDAR\r\n';
 
-    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
