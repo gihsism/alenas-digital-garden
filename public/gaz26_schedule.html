@@ -102,6 +102,9 @@
     .mobile-only { display: inline; }
   }
   .mobile-only { display: none; }
+  td.search-hit { background: #fff9c4 !important; box-shadow: inset 0 0 0 2px #f9a825 !important; }
+  td.search-hit.attending { background: #c8e6c9 !important; }
+  tr.search-hidden { display: none; }
 </style>
 </head>
 <body>
@@ -109,6 +112,10 @@
 
 <h1>GenAI Zürich 2026 – Complete Schedule</h1>
 <p class="legend">1–2 April 2026 · Kongresshaus Zürich · All stages side by side<br>Click any session to mark it as attending. Your selections are saved locally.<br class="mobile-only">On mobile: tap once for details, tap again to attend.</p>
+
+<div style="text-align:center; margin-bottom:12px;">
+  <input type="text" id="searchBox" placeholder="Search sessions, speakers, companies..." oninput="searchSchedule(this.value)" style="padding:8px 14px; border:1px solid #ccc; border-radius:6px; font-size:14px; width:100%; max-width:450px; outline:none; transition:border 0.2s;" onfocus="this.style.borderColor='#6c5ce7'" onblur="this.style.borderColor='#ccc'">
+</div>
 
 <div class="toolbar">
   <span class="count" id="count">0 selected</span>
@@ -466,7 +473,7 @@
   <td><strong>Manufacturing &amp; Construction</strong> (09:30–10:00)<br>
     • M. Korz <span class="company">ZF</span> – "GPT to Agent Orchestration"<br>
     • P. Hölzenbein <span class="company">Raven</span> – "AI in CAD"<br>
-    • N. Gushchin <span class="company">SFS Group</span> – AI Adoption<br><br>
+    • N. Gushchin <span class="company">SFS Group</span> – AI Adoption<br>
     <strong>Software Engineering</strong> (10:00–10:25)<br>
     • R. Jourdan <span class="company">AWS</span> – "Stop Prompting, Start Engineering"</td>
   <td><strong>GenAI in Action</strong> (09:30–10:30)<br>
@@ -487,28 +494,34 @@
 </tr>
 
 <tr>
-  <td class="time">11:00–12:00</td>
+  <td class="time">11:00–11:30</td>
   <td><strong>GenAI Tech Stack</strong><br>
     • O. Sanseviero <span class="company">Google DeepMind</span> – "AI Stack for Developers"<br>
-    • M. Czerwinski <span class="company">DeepL</span> – "Specialized Language AI"<br><br>
-    <strong>GenAI Solutions</strong> (11:30–12:00)<br>
-    • D'Onofrio &amp; Weber <span class="company">Groupe Mutuel / elaboratum</span> – Agentic Marketing<br>
-    • S. Ravizza <span class="company">Artifact</span> – AI &amp; Humans</td>
-  <td><strong>GenAI in Legal</strong> (11:00–11:30)<br>
+    • M. Czerwinski <span class="company">DeepL</span> – "Specialized Language AI"</td>
+  <td><strong>GenAI in Legal</strong><br>
     • D.A. Bloch <span class="company">Legartis</span> – "AI's Predictable Error"<br>
     • T. Kuster <span class="company">LEXR</span> – "Agentic AI Legal Challenges"<br>
-    • V. Mohan <span class="company">Smallpdf</span> – Responsible AI Stack<br><br>
-    <strong>GenAI in Media</strong> (11:35–12:05)<br>
-    • L. De Marchi <span class="company">Thomson Reuters</span> – "Gen AI in the News"<br>
-    • Bühler &amp; von Däniken <span class="company">ZHAW</span> – AI vs Hate Speech</td>
-  <td><strong>Building Reliable AI</strong> (11:00–12:05)<br>
+    • V. Mohan <span class="company">Smallpdf</span> – Responsible AI Stack</td>
+  <td rowspan="2"><strong>Building Reliable AI</strong> (11:00–12:05)<br>
     • A. Carol <span class="company">Adobe</span> – Testing LLM Outputs<br>
     • C. Sridi <span class="company">Qdrant</span> – AI at the Edge<br>
     • L. Rienau <span class="company">Cohere</span> – Full-Stack Sovereignty<br>
     • D. Verheijke <span class="company">Featherless AI</span> – Specialized Models<br>
     • D. Ungureanu <span class="company">Elma</span> – Edge AI</td>
   <td class="empty">–</td>
-  <td rowspan="2"><strong>AWS Workshop</strong> (10:30–12:30)<br>"Zero to Production-Ready Agents: AgentCore Deep Dive"<br><span class="speaker">Jacky Tam, Roberto Catalano</span> <span class="company">AWS</span></td>
+  <td rowspan="3"><strong>AWS Workshop</strong> (10:30–12:30)<br>"Zero to Production-Ready Agents: AgentCore Deep Dive"<br><span class="speaker">Jacky Tam, Roberto Catalano</span> <span class="company">AWS</span></td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">11:30–12:00</td>
+  <td><strong>GenAI Solutions</strong><br>
+    • D'Onofrio &amp; Weber <span class="company">Groupe Mutuel / elaboratum</span> – Agentic Marketing<br>
+    • S. Ravizza <span class="company">Artifact</span> – AI &amp; Humans</td>
+  <td><strong>GenAI in Media</strong> (11:35–12:05)<br>
+    • L. De Marchi <span class="company">Thomson Reuters</span> – "Gen AI in the News"<br>
+    • Bühler &amp; von Däniken <span class="company">ZHAW</span> – AI vs Hate Speech</td>
+  <td class="empty">–</td>
   <td class="empty">–</td>
 </tr>
 
@@ -516,10 +529,7 @@
   <td class="time">12:00–12:40</td>
   <td><strong>GenAI in the Arts: Film Hackathon Finals</strong> (12:00–12:30)<br>(co-hosted by Framed Futures)</td>
   <td><strong>Pharma &amp; Healthcare</strong> (12:10–12:40)<br>
-    • S. Liebe <span class="company">Sonova</span> – GenAI Journey in R&D<br><br>
-    <strong>GenAI Perspectives</strong> (12:45–13:15)<br>
-    • J. Kaufmann <span class="company">Webrepublic</span> – AI Value as SME<br>
-    • P. Burkard <span class="company">TechFace</span> – Slaying Bias</td>
+    • S. Liebe <span class="company">Sonova</span> – GenAI Journey in R&D</td>
   <td><strong>Data Sovereignty &amp; Decentralized AI</strong> (12:10–12:40)<br>
     • R. Damerau <span class="company">Cohesity</span> – Data Sovereignty<br>
     • P. Tobler <span class="company">Masumi Network</span> – Decentralized AI</td>
@@ -531,7 +541,21 @@
 
 <tr class="break">
   <td class="time">12:30–13:30</td>
-  <td colspan="5">🍽 Lunch Break</td>
+  <td colspan="2">🍽 Lunch Break</td>
+  <td colspan="3">🍽 Lunch Break</td>
+  <td>↑ Governance RT</td>
+  <td>↑</td>
+</tr>
+
+<tr>
+  <td class="time">12:45–13:15</td>
+  <td class="empty">–</td>
+  <td><strong>GenAI Perspectives</strong><br>
+    • J. Kaufmann <span class="company">Webrepublic</span> – AI Value as SME<br>
+    • P. Burkard <span class="company">TechFace</span> – Slaying Bias</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
   <td>↑ Governance RT</td>
   <td>↑</td>
 </tr>
@@ -548,26 +572,32 @@
 </tr>
 
 <tr>
-  <td class="time">14:00–15:00</td>
-  <td><strong>"Who Is Accountable for the $10M Bug?"</strong> (14:00–14:30)<br><span class="speaker">Andre Sharpe</span> <span class="company">IWG</span><br><br>
-    <strong>Panel: Process Redesign for AI</strong> (14:30–15:00)</td>
-  <td><strong>Transport &amp; Logistics</strong> (14:00–14:25)<br>
+  <td class="time">14:00–14:30</td>
+  <td><strong>"Who Is Accountable for the $10M Bug?"</strong><br><span class="speaker">Andre Sharpe</span> <span class="company">IWG</span></td>
+  <td><strong>Transport &amp; Logistics</strong><br>
     • Y. Quacken <span class="company">Swiss Post</span> – SLMs &amp; Governance<br>
-    • C. Klaus Boecker <span class="company">Zurich Airport</span> – Responsible AI<br><br>
-    <strong>Workplace</strong> (14:30–15:00)<br>
+    • C. Klaus Boecker <span class="company">Zurich Airport</span> – Responsible AI</td>
+  <td><strong>AI-Augmented Decisions</strong><br>
+    • P. Ferreiro <span class="company">Databricks</span> – Human-AI Decisions<br>
+    • Dr. V. Butenko – AI Agents Negotiate</td>
+  <td>↑ WiDS cont.</td>
+  <td class="empty">–</td>
+  <td rowspan="2"><strong>Pharma &amp; Healthcare</strong> (14:00–15:00, invite-only)</td>
+  <td rowspan="2">Jury Deliberation<br>(14:00–16:00)</td>
+</tr>
+
+<tr>
+  <td class="time">14:30–15:00</td>
+  <td><strong>Panel: Process Redesign for AI</strong></td>
+  <td><strong>GenAI in the Workplace</strong><br>
     • Ahluwalia &amp; Tagliabue <span class="company">thirty3/Tagliabue</span> – AI Hiring<br>
     • Kirchgeorg &amp; Haushammer <span class="company">AI Businessschool</span> – Scalable Adoption</td>
-  <td><strong>AI-Augmented Decisions</strong> (14:00–14:30)<br>
-    • P. Ferreiro <span class="company">Databricks</span> – Human-AI Decisions<br>
-    • Dr. V. Butenko – AI Agents Negotiate<br><br>
-    <strong>Research &amp; Education</strong> (14:30–15:00)<br>
+  <td><strong>Research &amp; Education</strong><br>
     • P. Kanduri <span class="company">CSCS</span> – Swiss HPC<br>
     • Dr. A. Villarroel <span class="company">innoverse.ai</span> – Cognitive Debt<br>
     • M. Huber <span class="company">WE ARE AIA</span> – "Can You See the Algorithm?"</td>
-  <td>↑ WiDS cont.<br><br><strong>Artifact Workshop</strong> (14:30–15:30)<br>"Designing LLM Agents: Frameworks &amp; Trade-offs"<br><span class="speaker">David Limacher</span> <span class="company">Artifact</span></td>
+  <td><strong>Artifact Workshop</strong> (14:30–15:30)<br>"Designing LLM Agents: Frameworks &amp; Trade-offs"<br><span class="speaker">David Limacher</span> <span class="company">Artifact</span></td>
   <td class="empty">–</td>
-  <td><strong>Pharma &amp; Healthcare</strong> (14:00–15:00, invite-only)</td>
-  <td>Jury Deliberation<br>(14:00–16:00)</td>
 </tr>
 
 <tr class="break">
@@ -577,23 +607,9 @@
 </tr>
 
 <tr>
-  <td class="time">15:15–16:15</td>
-  <td class="empty">–</td>
-  <td class="empty">–</td>
-  <td class="empty">–</td>
-  <td>↑ Artifact cont.</td>
-  <td class="empty">–</td>
-  <td><strong>AI Builders</strong> (15:15–16:15, invite-only)<br>Mod: A.E. Brunner – "For founders &amp; coders only"</td>
-  <td>↑ Jury<br>Finalists announced (16:00)<br>Prep (16:10–17:30)</td>
-</tr>
-
-<tr>
-  <td class="time">15:30–16:00</td>
-  <td><strong>Keynote: "Ethics of GenAI"</strong> (15:30–15:45)<br><span class="speaker">Prof. Dr. P.G. Kirchschlaeger</span> <span class="company">Uni Lucerne</span><br><br>
-    <strong>GenAI Tech Stack</strong> (15:45–16:30)<br>
-    • M. Buckley <span class="company">Exa</span> – "Search APIs for Agents"<br>
-    • (+ more TBA)</td>
-  <td><strong>Humanitarian Aid</strong> (15:30–16:30)<br>
+  <td class="time">15:30–15:45</td>
+  <td><strong>Keynote: "Ethics of GenAI"</strong><br><span class="speaker">Prof. Dr. P.G. Kirchschlaeger</span> <span class="company">Uni Lucerne</span></td>
+  <td rowspan="3"><strong>Humanitarian Aid</strong> (15:30–16:30)<br>
     • A.-M. Buzatu <span class="company">ICT4Peace</span> – Responsible AI Platform<br>
     • P. Stoll – "AI in War: Red Cross Case"<br>
     • H. Etyemezian <span class="company">UNHCR</span> – Refugee Protection<br>
@@ -603,27 +619,43 @@
     • E. Treccani <span class="company">Founderful</span> – Pre-Seed in CH</td>
   <td class="empty">–</td>
   <td class="empty">–</td>
-  <td>↑ AI Builders</td>
-  <td>↑</td>
+  <td rowspan="3"><strong>AI Builders</strong> (15:15–16:15, invite-only)<br>Mod: A.E. Brunner – "For founders &amp; coders only"</td>
+  <td rowspan="4">↑ Jury<br>Finalists announced (16:00)<br>Prep (16:10–17:30)</td>
 </tr>
 
 <tr>
-  <td class="time">16:00–17:00</td>
-  <td><strong>Sovereign GenAI</strong> (16:30–16:55)<br>
+  <td class="time">15:45–16:30</td>
+  <td><strong>GenAI Tech Stack</strong><br>
+    • M. Buckley <span class="company">Exa</span> – "Search APIs for Agents"<br>
+    • (+ more TBA)</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">16:30–16:55</td>
+  <td><strong>Sovereign GenAI: Who Owns the Stack?</strong><br>
     • M. Stampfli <span class="company">NVIDIA</span> – "No Sovereignty Without Open-Source"<br>
-    • A.E. Brunner – "The Big Swiss AI Secret"<br><br>
-    <strong>Panel: "Winning the Digital Sovereignty Race"</strong> (17:00–17:30)<br>
-    Podestà, Charra, Schneider, Brunner</td>
-  <td><strong>Entertainment</strong> (16:30–16:55)<br>
+    • A.E. Brunner – "The Big Swiss AI Secret"</td>
+  <td><strong>Entertainment</strong><br>
     • Dr. J. Mišeikis <span class="company">Sony AI</span> – "Gran Turismo Sophy"</td>
-  <td><strong>Art in the Age of GenAI</strong> (16:00–16:55)<br>(co-hosted After The Algorithm)<br>
+  <td rowspan="2"><strong>Art in the Age of GenAI</strong> (16:00–16:55)<br>(co-hosted After The Algorithm)<br>
     • 2girls1comp – "Dancing Plague"<br>
     • M.F. Hendry – "Friendly Fire at the Shrink"<br>
     • Panel: "Why Technology Needs Art?"</td>
   <td class="empty">–</td>
   <td class="empty">–</td>
+</tr>
+
+<tr>
+  <td class="time">17:00–17:30</td>
+  <td><strong>Panel: "Winning the Digital Sovereignty Race"</strong><br>
+    Podestà, Charra, Schneider, Brunner</td>
   <td class="empty">–</td>
-  <td>↑ Finalists prep</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
+  <td class="empty">–</td>
 </tr>
 
 <tr>
@@ -1145,6 +1177,31 @@ const SESSION_DESC = {
   function hideTooltip() {
     tooltip.classList.remove('visible');
   }
+
+  // Search
+  window.searchSchedule = function(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('td.search-hit').forEach(c => c.classList.remove('search-hit'));
+    document.querySelectorAll('tr.search-hidden').forEach(r => r.classList.remove('search-hidden'));
+
+    if (!q) return;
+
+    document.querySelectorAll('table tbody tr').forEach(row => {
+      if (row.classList.contains('break')) return;
+      const cells = row.querySelectorAll('td');
+      let rowHasHit = false;
+      cells.forEach((cell, i) => {
+        if (i === 0) return; // skip time
+        if (cell.textContent.toLowerCase().includes(q)) {
+          cell.classList.add('search-hit');
+          rowHasHit = true;
+        }
+      });
+      if (!rowHasHit) {
+        row.classList.add('search-hidden');
+      }
+    });
+  };
 
   // Mobile: stage column filter
   window.filterStage = function(col) {
