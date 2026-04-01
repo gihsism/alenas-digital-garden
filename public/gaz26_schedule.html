@@ -102,6 +102,7 @@
     .mobile-only { display: inline; }
   }
   .mobile-only { display: none; }
+  .room-tag { display: inline-block; margin-top: 3px; padding: 1px 6px; background: #e8eaf6; color: #3949ab; border-radius: 3px; font-size: 10px; font-weight: 600; letter-spacing: 0.02em; }
   .reg-link { display: inline-block; margin-top: 4px; padding: 2px 8px; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; border-radius: 4px; font-size: 11px; text-decoration: none; font-weight: 600; }
   .reg-link:hover { background: #2e7d32; color: #fff; }
   td.search-hit { background: #fff9c4 !important; box-shadow: inset 0 0 0 2px #f9a825 !important; }
@@ -150,13 +151,13 @@
 <thead>
 <tr>
   <th>Time</th>
-  <th>Main Stage</th>
-  <th>Use Case Stage</th>
-  <th>Tech &amp; Startup Stage</th>
-  <th>Workshops I (Zimmer 20)</th>
-  <th>Workshops II (Zimmer 22)</th>
-  <th>Roundtables (Zimmer 23)</th>
-  <th>Hackathon Space</th>
+  <th>Main Stage<br><small>Theatersaal</small></th>
+  <th>Use Case Stage<br><small>1F Gelber Saal</small></th>
+  <th>Tech &amp; Startup Stage<br><small>2F Zimmer 22</small></th>
+  <th>Workshops I<br><small>2F Zimmer 20</small></th>
+  <th>Workshops II<br><small>2F Zimmer 21</small></th>
+  <th>Roundtables<br><small>2F Zimmer 23</small></th>
+  <th>Hackathon Space<br><small>1F Grüner Saal</small></th>
 </tr>
 </thead>
 <tbody>
@@ -432,13 +433,13 @@
 <thead>
 <tr>
   <th>Time</th>
-  <th>Main Stage</th>
-  <th>Use Case Stage</th>
-  <th>Tech &amp; Startup Stage</th>
-  <th>Workshops I (Zimmer 20)</th>
-  <th>Workshops II (Zimmer 22)</th>
-  <th>Roundtables (Zimmer 23)</th>
-  <th>Hackathon Space</th>
+  <th>Main Stage<br><small>Theatersaal</small></th>
+  <th>Use Case Stage<br><small>1F Blauer Saal</small></th>
+  <th>Tech &amp; Startup Stage<br><small>1F Gelber Saal</small></th>
+  <th>Workshops I<br><small>2F Zimmer 20</small></th>
+  <th>Workshops II<br><small>2F Zimmer 22</small></th>
+  <th>Roundtables<br><small>2F Zimmer 23</small></th>
+  <th>Hackathon Space<br><small>1F Grüner Saal</small></th>
 </tr>
 </thead>
 <tbody>
@@ -896,6 +897,34 @@ const SESSION_DESC = {
       }
     });
     updateCount();
+
+    // Add room location tags to all selectable cells
+    const roomsByDay = [
+      // Day 1: col 1=Main, 2=UseCase, 3=Tech, 4=WS1, 5=WS2, 6=RT, 7=Hack
+      { 1: 'Theatersaal', 2: '1F Gelber Saal', 3: '2F Zimmer 22', 4: '2F Zimmer 20', 5: '2F Zimmer 21', 6: '2F Zimmer 23', 7: '1F Grüner Saal' },
+      // Day 2: rooms change!
+      { 1: 'Theatersaal', 2: '1F Blauer Saal', 3: '1F Gelber Saal', 4: '2F Zimmer 20', 5: '2F Zimmer 22', 6: '2F Zimmer 23', 7: '1F Grüner Saal' }
+    ];
+    tables.forEach((table, ti) => {
+      const colMap = buildColMap(table);
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const cellMap = colMap.get(row);
+        if (!cellMap) return;
+        row.querySelectorAll('td.selectable').forEach(cell => {
+          const logCol = cellMap.get(cell);
+          const rooms = roomsByDay[ti] || roomsByDay[0];
+          const room = rooms[logCol];
+          if (room && !cell.querySelector('.room-tag')) {
+            const tag = document.createElement('span');
+            tag.className = 'room-tag';
+            tag.textContent = room;
+            cell.appendChild(document.createElement('br'));
+            cell.appendChild(tag);
+          }
+        });
+      });
+    });
   }
 
   function toggle(cell) {
@@ -1075,7 +1104,10 @@ const SESSION_DESC = {
           }
 
           const desc = findDescription(cell.textContent) || '';
-          events.push({ title, stage, desc, dtStart, dtEnd: evEnd, localStart, localEnd, date });
+          // Get specific room from the room-tag we injected
+          const roomTag = cell.querySelector('.room-tag');
+          const room = roomTag ? roomTag.textContent : '';
+          events.push({ title, stage, room, desc, dtStart, dtEnd: evEnd, localStart, localEnd, date });
         });
       });
     });
@@ -1093,8 +1125,9 @@ const SESSION_DESC = {
     events.forEach((ev, i) => {
       // Clean text: remove commas/semicolons/backslashes that break ICS, replace newlines
       const cleanTitle = ev.title.replace(/[\\;,]/g, ' ');
-      const cleanDesc = ev.desc ? (ev.desc + ' | Stage: ' + ev.stage).replace(/[\\;,]/g, ' ') : 'Stage: ' + ev.stage;
-      const cleanLoc = ('Kongresshaus Zurich - ' + ev.stage).replace(/[\\;,]/g, ' ');
+      const locDetail = ev.room ? ev.room + ' (' + ev.stage + ')' : ev.stage;
+      const cleanDesc = ev.desc ? (ev.desc + ' | ' + locDetail).replace(/[\\;,]/g, ' ') : locDetail;
+      const cleanLoc = ('Volkshaus Zurich - ' + locDetail).replace(/[\\;,]/g, ' ');
 
       ics += 'BEGIN:VEVENT\r\n';
       ics += 'UID:gaz26-' + i + '-' + ev.dtStart + '@genaizurich.ch\r\n';
@@ -1130,8 +1163,8 @@ const SESSION_DESC = {
         text: ev.title,
         dates: ev.localStart + '/' + ev.localEnd,
         ctz: 'Europe/Zurich',
-        details: (ev.desc ? ev.desc + '\n\nStage: ' + ev.stage : 'Stage: ' + ev.stage),
-        location: 'Kongresshaus Zurich - ' + ev.stage
+        details: (ev.desc ? ev.desc + '\n\n' + (ev.room ? ev.room + ' (' + ev.stage + ')' : ev.stage) : (ev.room ? ev.room + ' (' + ev.stage + ')' : ev.stage)),
+        location: 'Volkshaus Zurich - ' + (ev.room ? ev.room : ev.stage)
       });
       window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank');
     });
