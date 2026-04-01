@@ -123,6 +123,7 @@
 <div class="toolbar">
   <span class="count" id="count">0 selected</span>
   <label class="filter-toggle"><input type="checkbox" id="filterToggle" onchange="toggleFilter()"> Show only my selections</label>
+  <label class="filter-toggle"><input type="checkbox" id="hideDay1" onchange="toggleDay1()"> Hide Day 1</label>
   <button onclick="exportText()">Export .txt</button>
   <button onclick="exportEmail()">Email</button>
   <button onclick="exportICS()">Outlook / Apple (.ics)</button>
@@ -1269,6 +1270,15 @@ const SESSION_DESC = {
         row.classList.add('search-hidden');
       }
     });
+  };
+
+  // Hide Day 1
+  window.toggleDay1 = function() {
+    const hide = document.getElementById('hideDay1').checked;
+    const day1h2 = document.querySelectorAll('h2')[0];
+    const day1table = document.querySelectorAll('table')[0];
+    if (day1h2) day1h2.style.display = hide ? 'none' : '';
+    if (day1table) day1table.style.display = hide ? 'none' : '';
   };
 
   // Mobile: stage column filter
