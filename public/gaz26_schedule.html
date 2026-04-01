@@ -1067,8 +1067,15 @@ const SESSION_DESC = {
             evEnd = toUTC(date, cellTimeMatch[3].padStart(2, '0'), cellTimeMatch[4]);
           }
 
+          // Also store local times for Google Calendar
+          const localStart = date + 'T' + startH + startM + '00';
+          let localEnd = date + 'T' + endH + endM + '00';
+          if (cellTimeMatch) {
+            localEnd = date + 'T' + cellTimeMatch[3].padStart(2, '0') + cellTimeMatch[4] + '00';
+          }
+
           const desc = findDescription(cell.textContent) || '';
-          events.push({ title, stage, desc, dtStart, dtEnd: evEnd, date });
+          events.push({ title, stage, desc, dtStart, dtEnd: evEnd, localStart, localEnd, date });
         });
       });
     });
@@ -1121,10 +1128,10 @@ const SESSION_DESC = {
       const params = new URLSearchParams({
         action: 'TEMPLATE',
         text: ev.title,
-        dates: ev.dtStart + '/' + ev.dtEnd,
+        dates: ev.localStart + '/' + ev.localEnd,
         ctz: 'Europe/Zurich',
-        details: ev.desc + '\n\nStage: ' + ev.stage,
-        location: 'Kongresshaus Zürich – ' + ev.stage
+        details: (ev.desc ? ev.desc + '\n\nStage: ' + ev.stage : 'Stage: ' + ev.stage),
+        location: 'Kongresshaus Zurich - ' + ev.stage
       });
       window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank');
     });
