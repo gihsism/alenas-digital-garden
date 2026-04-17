@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const STREAMLIT_URL = "https://gihsism-ifrs18tool-app-lcitfr.streamlit.app";
+const STREAMLIT_URL = "https://gihsism-ifrs18tool-app-lcitfr.streamlit.app/?embed=true";
 
 const IFRS18Analysis = () => {
   useEffect(() => {
