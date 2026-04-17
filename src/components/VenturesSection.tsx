@@ -18,6 +18,12 @@ const sideProjects = [
     description: "An AI-powered agent that monitors job listings and sends personalised alerts.",
   },
   {
+    name: "IFRS 18 Conversion Tool",
+    url: "/IFRS18analysis",
+    github: "https://github.com/gihsism/ifrs18tool",
+    description: "Analyses financial statements for IFRS 18 impact and generates compliant P&L, balance sheet, and cash flow presentations with aggregation analysis, MPM disclosures, and transition reconciliation.",
+  },
+  {
     name: "Disclosure Checklist",
     url: "/IFRSdisclosurechecklist",
     github: "https://github.com/gihsism/disclosure-checklist",
