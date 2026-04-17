@@ -216,8 +216,9 @@ function parseFinancialLine(line: string): { account: string; amounts: number[] 
 export async function parsePdf(file: File): Promise<ParsedTable[]> {
   const pdfjsLib = await import("pdfjs-dist");
 
-  // Set worker
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+  // Use bundled worker via npm package (CDN may not have this version)
+  const pdfjsWorker = await import("pdfjs-dist/build/pdf.worker.min.mjs");
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
   const data = await file.arrayBuffer();
   const pdf = await pdfjsLib.getDocument({ data }).promise;
