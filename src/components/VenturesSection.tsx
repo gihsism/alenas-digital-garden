@@ -25,7 +25,7 @@ const sideProjects = [
   },
   {
     name: "Disclosure Checklist",
-    url: "https://disclosure-checklist.vercel.app/",
+    url: "/disclosurechecklistIFRS",
     github: "https://github.com/gihsism/disclosure-checklist",
     description: "AI-powered IFRS disclosure compliance analyzer for financial statements.",
   },
