@@ -2,12 +2,12 @@ import { Briefcase } from "lucide-react";
 
 const roles = [
   {
-    title: "Founder & CEO",
+    title: "AI Product Owner · Personal Project",
     company: "Womanie",
     location: "Zurich, Switzerland",
-    period: "Present",
+    period: "Free time",
     description:
-      "Building an AI-powered women's health platform spanning product strategy, operations, and go-to-market across health, technology, and impact.",
+      "A hands-on project I build in my spare time, where I act as product owner end-to-end — shaping the roadmap, designing the experience, and building it with AI. Non-commercial: a passion project for growing my product and AI skills.",
   },
   {
     title: "Senior Manager, Technical Accounting Advisory Services",

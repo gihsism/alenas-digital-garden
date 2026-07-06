@@ -43,13 +43,13 @@ const VenturesSection = () => {
         {/* Startup */}
         <div className="flex items-center gap-3 mb-12">
           <Rocket className="w-5 h-5 text-accent" />
-          <h2 className="font-display text-3xl md:text-4xl text-foreground">Startup</h2>
+          <h2 className="font-display text-3xl md:text-4xl text-foreground">Passion Project</h2>
         </div>
 
         <div className="p-8 rounded-lg bg-card border border-border mb-12">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-accent mb-2">Founder · Product Owner</p>
+              <p className="font-body text-xs tracking-[0.2em] uppercase text-accent mb-2">Product Owner · Personal Project</p>
               <h3 className="font-display text-2xl md:text-3xl text-foreground">Womanie</h3>
             </div>
             <div className="flex items-center gap-3 mt-1">
@@ -72,7 +72,7 @@ const VenturesSection = () => {
             </div>
           </div>
           <p className="font-body text-muted-foreground leading-relaxed mb-4">
-            After going through my own fertility challenges, I decided to do something about the broken women's health experience. That's how Womanie was born. As CEO and product director, I lead the vision and strategy — and stay deeply hands-on, building much of the platform myself. Womanie is your complete women's health companion — an AI-powered platform offering personalised cycle tracking, symptom logging, telehealth consultations, and secure medical document management. Designed to support every stage of the reproductive journey, from first period through menopause.
+            Womanie is a personal project I build in my free time — my way of growing as a product owner while exploring my own curiosity about women's health, sparked by navigating my own fertility journey. It's a non-commercial passion project where I own the product end-to-end: shaping the roadmap, designing the experience, and building it myself — from AI-assisted cycle tracking to symptom logging and a secure place to keep medical documents, spanning the reproductive journey from first period through menopause. It's where I sharpen my product and AI skills, hands-on, for the joy of building.
           </p>
           <div className="flex flex-wrap gap-2 mt-4">
             {["AI Health Assistant", "Telehealth", "Cycle Tracking", "HIPAA Compliant", "Wearable Integration"].map((tag) => (
